@@ -20,6 +20,7 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SizeGuideRouteImport } from './routes/size-guide'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
+import { Route as PoliciesPrivacyRouteImport } from './routes/policies.privacy'
 import { Route as PoliciesReturnsRouteImport } from './routes/policies.returns'
 import { Route as PoliciesShippingRouteImport } from './routes/policies.shipping'
 import { Route as PoliciesTermsRouteImport } from './routes/policies.terms'
@@ -80,6 +81,11 @@ const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   path: '/collections/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PoliciesPrivacyRoute = PoliciesPrivacyRouteImport.update({
+  id: '/policies/privacy',
+  path: '/policies/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PoliciesReturnsRoute = PoliciesReturnsRouteImport.update({
   id: '/policies/returns',
   path: '/policies/returns',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/size-guide': typeof SizeGuideRoute
   '/track': typeof TrackRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/policies/privacy': typeof PoliciesPrivacyRoute
   '/policies/returns': typeof PoliciesReturnsRoute
   '/policies/shipping': typeof PoliciesShippingRoute
   '/policies/terms': typeof PoliciesTermsRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/size-guide': typeof SizeGuideRoute
   '/track': typeof TrackRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/policies/privacy': typeof PoliciesPrivacyRoute
   '/policies/returns': typeof PoliciesReturnsRoute
   '/policies/shipping': typeof PoliciesShippingRoute
   '/policies/terms': typeof PoliciesTermsRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/size-guide': typeof SizeGuideRoute
   '/track': typeof TrackRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/policies/privacy': typeof PoliciesPrivacyRoute
   '/policies/returns': typeof PoliciesReturnsRoute
   '/policies/shipping': typeof PoliciesShippingRoute
   '/policies/terms': typeof PoliciesTermsRoute
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/size-guide'
     | '/track'
     | '/collections/$handle'
+    | '/policies/privacy'
     | '/policies/returns'
     | '/policies/shipping'
     | '/policies/terms'
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/size-guide'
     | '/track'
     | '/collections/$handle'
+    | '/policies/privacy'
     | '/policies/returns'
     | '/policies/shipping'
     | '/policies/terms'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/size-guide'
     | '/track'
     | '/collections/$handle'
+    | '/policies/privacy'
     | '/policies/returns'
     | '/policies/shipping'
     | '/policies/terms'
@@ -219,6 +231,7 @@ export interface RootRouteChildren {
   SizeGuideRoute: typeof SizeGuideRoute
   TrackRoute: typeof TrackRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
+  PoliciesPrivacyRoute: typeof PoliciesPrivacyRoute
   PoliciesReturnsRoute: typeof PoliciesReturnsRoute
   PoliciesShippingRoute: typeof PoliciesShippingRoute
   PoliciesTermsRoute: typeof PoliciesTermsRoute
@@ -304,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/policies/privacy': {
+      id: '/policies/privacy'
+      path: '/policies/privacy'
+      fullPath: '/policies/privacy'
+      preLoaderRoute: typeof PoliciesPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/policies/returns': {
       id: '/policies/returns'
       path: '/policies/returns'
@@ -347,6 +367,7 @@ const rootRouteChildren: RootRouteChildren = {
   SizeGuideRoute: SizeGuideRoute,
   TrackRoute: TrackRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
+  PoliciesPrivacyRoute: PoliciesPrivacyRoute,
   PoliciesReturnsRoute: PoliciesReturnsRoute,
   PoliciesShippingRoute: PoliciesShippingRoute,
   PoliciesTermsRoute: PoliciesTermsRoute,

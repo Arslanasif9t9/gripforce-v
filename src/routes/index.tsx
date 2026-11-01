@@ -172,7 +172,8 @@ function Index() {
               <p className="mt-2 text-muted-foreground">Compact, easy-to-use gear for training at home.</p>
             </div>
             <Link
-              to="/collections/home-workout"
+              to="/collections/$handle"
+              params={{ handle: "home-workout" }}
               className="hidden font-display text-lg uppercase tracking-wider text-foreground underline decoration-primary decoration-2 underline-offset-4 sm:block"
             >
               View collection
@@ -215,7 +216,8 @@ function Index() {
               <p className="mt-2 text-muted-foreground">Real accessory kits with honest pricing.</p>
             </div>
             <Link
-              to="/collections/bundles"
+              to="/collections/$handle"
+              params={{ handle: "bundles" }}
               className="hidden font-display text-lg uppercase tracking-wider text-foreground underline decoration-primary decoration-2 underline-offset-4 sm:block"
             >
               View all
