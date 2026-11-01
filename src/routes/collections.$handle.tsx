@@ -9,19 +9,21 @@ export const Route = createFileRoute("/collections/$handle")({
   head: ({ params }) => {
     const collection = getCollection(params.handle);
     const name = collection?.name ?? "Collection";
-    return [
-      { title: `${name} — Grip Force` },
-      {
-        name: "description",
-        content:
-          collection?.description ??
-          "Shop Grip Force fitness accessories for gym, home and outdoor training.",
-      },
-      { property: "og:title", content: `${name} — Grip Force` },
-      { property: "og:description", content: collection?.description ?? "Grip Force fitness accessories." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ];
+    return {
+      meta: [
+        { title: `${name} — Grip Force` },
+        {
+          name: "description",
+          content:
+            collection?.description ??
+            "Shop Grip Force fitness accessories for gym, home and outdoor training.",
+        },
+        { property: "og:title", content: `${name} — Grip Force` },
+        { property: "og:description", content: collection?.description ?? "Grip Force fitness accessories." },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
   },
   component: CollectionPage,
 });

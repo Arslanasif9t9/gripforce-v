@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { clearCart, removeFromCart, updateQty, useCart } from "@/lib/cart";
-import { cartItemImage, formatPrice } from "@/lib/catalog";
+import { cartItemImage, clearCart, removeFromCart, updateQty, useCart } from "@/lib/cart";
+import { formatPrice } from "@/lib/catalog";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({

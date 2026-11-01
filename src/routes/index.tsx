@@ -106,7 +106,7 @@ function Index() {
             <Link to="/shop" className="btn-neon text-lg">
               Shop Now
             </Link>
-            <Link to="/collections/home-workout" className="btn-outline-dark text-lg">
+            <Link to="/collections/$handle" params={{ handle: "home-workout" }} className="btn-outline-dark text-lg">
               Explore Home Fitness
             </Link>
           </div>

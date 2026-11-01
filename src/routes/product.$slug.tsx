@@ -10,15 +10,17 @@ export const Route = createFileRoute("/product/$slug")({
   },
   head: ({ params }) => {
     const product = getProduct(params.slug);
-    if (!product) return [{ title: "Product not found — Grip Force" }];
-    return [
-      { title: `${product.name} — Grip Force` },
-      { name: "description", content: product.description },
-      { property: "og:title", content: `${product.name} — Grip Force` },
-      { property: "og:description", content: product.description },
-      { property: "og:type", content: "product" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ];
+    if (!product) return { meta: [{ title: "Product not found — Grip Force" }] };
+    return {
+      meta: [
+        { title: `${product.name} — Grip Force` },
+        { name: "description", content: product.description },
+        { property: "og:title", content: `${product.name} — Grip Force` },
+        { property: "og:description", content: product.description },
+        { property: "og:type", content: "product" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
   },
   component: ProductPage,
 });
@@ -27,7 +29,7 @@ function ProductPage() {
   const { slug } = Route.useParams();
   const product = getProduct(slug)!;
   const related = relatedProducts(product);
-  const [size, setSize] = useState<string | null>(product.sizes ? product.sizes[0] : null);
+  const [size, setSize] = useState<string | null>(product.sizes?.[0] ?? null);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [checkoutNote, setCheckoutNote] = useState(false);
@@ -48,7 +50,7 @@ function ProductPage() {
       <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
         <Link to="/" className="hover:text-primary">Home</Link> <span aria-hidden>/</span>{" "}
         <Link to="/shop" className="hover:text-primary">Shop</Link> <span aria-hidden>/</span>{" "}
-        <Link to={`/collections/${product.collection}`} className="hover:text-primary">
+        <Link to="/collections/$handle" params={{ handle: product.collection }} className="hover:text-primary">
           {product.collectionName}
         </Link>{" "}
         <span aria-hidden>/</span> {product.name}
