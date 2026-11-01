@@ -14,9 +14,15 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as PaymentInfoRouteImport } from './routes/payment-info'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SizeGuideRouteImport } from './routes/size-guide'
+import { Route as TrackRouteImport } from './routes/track'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
+import { Route as PoliciesPrivacyRouteImport } from './routes/policies.privacy'
+import { Route as PoliciesReturnsRouteImport } from './routes/policies.returns'
+import { Route as PoliciesShippingRouteImport } from './routes/policies.shipping'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -44,6 +50,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaymentInfoRoute = PaymentInfoRouteImport.update({
+  id: '/payment-info',
+  path: '/payment-info',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -54,9 +65,34 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SizeGuideRoute = SizeGuideRouteImport.update({
+  id: '/size-guide',
+  path: '/size-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   id: '/collections/$handle',
   path: '/collections/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesPrivacyRoute = PoliciesPrivacyRouteImport.update({
+  id: '/policies/privacy',
+  path: '/policies/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesReturnsRoute = PoliciesReturnsRouteImport.update({
+  id: '/policies/returns',
+  path: '/policies/returns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesShippingRoute = PoliciesShippingRouteImport.update({
+  id: '/policies/shipping',
+  path: '/policies/shipping',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
@@ -71,9 +107,15 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/payment-info': typeof PaymentInfoRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
+  '/size-guide': typeof SizeGuideRoute
+  '/track': typeof TrackRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/policies/privacy': typeof PoliciesPrivacyRoute
+  '/policies/returns': typeof PoliciesReturnsRoute
+  '/policies/shipping': typeof PoliciesShippingRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
@@ -82,9 +124,15 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/payment-info': typeof PaymentInfoRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
+  '/size-guide': typeof SizeGuideRoute
+  '/track': typeof TrackRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/policies/privacy': typeof PoliciesPrivacyRoute
+  '/policies/returns': typeof PoliciesReturnsRoute
+  '/policies/shipping': typeof PoliciesShippingRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesById {
@@ -94,9 +142,15 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/payment-info': typeof PaymentInfoRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
+  '/size-guide': typeof SizeGuideRoute
+  '/track': typeof TrackRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/policies/privacy': typeof PoliciesPrivacyRoute
+  '/policies/returns': typeof PoliciesReturnsRoute
+  '/policies/shipping': typeof PoliciesShippingRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
@@ -107,9 +161,15 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/faq'
+    | '/payment-info'
     | '/search'
     | '/shop'
+    | '/size-guide'
+    | '/track'
     | '/collections/$handle'
+    | '/policies/privacy'
+    | '/policies/returns'
+    | '/policies/shipping'
     | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -118,9 +178,15 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/faq'
+    | '/payment-info'
     | '/search'
     | '/shop'
+    | '/size-guide'
+    | '/track'
     | '/collections/$handle'
+    | '/policies/privacy'
+    | '/policies/returns'
+    | '/policies/shipping'
     | '/product/$slug'
   id:
     | '__root__'
@@ -129,9 +195,15 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/faq'
+    | '/payment-info'
     | '/search'
     | '/shop'
+    | '/size-guide'
+    | '/track'
     | '/collections/$handle'
+    | '/policies/privacy'
+    | '/policies/returns'
+    | '/policies/shipping'
     | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -141,9 +213,15 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  PaymentInfoRoute: typeof PaymentInfoRoute
   SearchRoute: typeof SearchRoute
   ShopRoute: typeof ShopRoute
+  SizeGuideRoute: typeof SizeGuideRoute
+  TrackRoute: typeof TrackRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
+  PoliciesPrivacyRoute: typeof PoliciesPrivacyRoute
+  PoliciesReturnsRoute: typeof PoliciesReturnsRoute
+  PoliciesShippingRoute: typeof PoliciesShippingRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
@@ -184,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/payment-info': {
+      id: '/payment-info'
+      path: '/payment-info'
+      fullPath: '/payment-info'
+      preLoaderRoute: typeof PaymentInfoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -198,11 +283,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/size-guide': {
+      id: '/size-guide'
+      path: '/size-guide'
+      fullPath: '/size-guide'
+      preLoaderRoute: typeof SizeGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections/$handle': {
       id: '/collections/$handle'
       path: '/collections/$handle'
       fullPath: '/collections/$handle'
       preLoaderRoute: typeof CollectionsHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies/privacy': {
+      id: '/policies/privacy'
+      path: '/policies/privacy'
+      fullPath: '/policies/privacy'
+      preLoaderRoute: typeof PoliciesPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies/returns': {
+      id: '/policies/returns'
+      path: '/policies/returns'
+      fullPath: '/policies/returns'
+      preLoaderRoute: typeof PoliciesReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies/shipping': {
+      id: '/policies/shipping'
+      path: '/policies/shipping'
+      fullPath: '/policies/shipping'
+      preLoaderRoute: typeof PoliciesShippingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/product/$slug': {
@@ -221,9 +341,15 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  PaymentInfoRoute: PaymentInfoRoute,
   SearchRoute: SearchRoute,
   ShopRoute: ShopRoute,
+  SizeGuideRoute: SizeGuideRoute,
+  TrackRoute: TrackRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
+  PoliciesPrivacyRoute: PoliciesPrivacyRoute,
+  PoliciesReturnsRoute: PoliciesReturnsRoute,
+  PoliciesShippingRoute: PoliciesShippingRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport

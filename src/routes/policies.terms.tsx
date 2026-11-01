@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PolicyShell } from "./policies.shipping";
 
-export const Route = createFileRoute("/policies/terms")({
+export const Route = createFileRoute("/policies/privacy")({
   head: () => ({
     meta: [
       { title: "Terms of Service — Grip Force" },
