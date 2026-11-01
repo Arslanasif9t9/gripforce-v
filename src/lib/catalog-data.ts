@@ -1,124 +1,421 @@
-import gripImg from "@/assets/placeholder-grip.jpg";
-import glovesImg from "@/assets/placeholder-gloves.jpg";
-import bandsImg from "@/assets/placeholder-bands.jpg";
-import bottleImg from "@/assets/placeholder-bottle.jpg";
-import rollerImg from "@/assets/placeholder-roller.jpg";
-import bagImg from "@/assets/placeholder-bag.jpg";
+import beltImg from "@/assets/products/weightlifting-belt.jpg.asset.json";
+import fingerImg from "@/assets/products/finger-trainer.jpg.asset.json";
+import pushUpImg from "@/assets/products/push-up-bars.jpg.asset.json";
+import bottleImg from "@/assets/products/insulated-bottle.jpg.asset.json";
+import kettlebellImg from "@/assets/products/kettlebell.jpg.asset.json";
+import bandsImg from "@/assets/products/resistance-bands.jpg.asset.json";
+import dumbbellsImg from "@/assets/products/dumbbells.jpg.asset.json";
+import foamRollerImg from "@/assets/products/foam-roller.jpg.asset.json";
+import gripperImg from "@/assets/products/hand-gripper.jpg.asset.json";
+import jumpRopeImg from "@/assets/products/jump-rope.jpg.asset.json";
+import matImg from "@/assets/products/exercise-mat.jpg.asset.json";
+import shakerImg from "@/assets/products/shaker-bottle.jpg.asset.json";
+import wristWrapsImg from "@/assets/products/wrist-wraps.jpg.asset.json";
+import strapsImg from "@/assets/products/lifting-straps.jpg.asset.json";
+import duffelImg from "@/assets/products/duffel-bag.jpg.asset.json";
+import abRoller1Img from "@/assets/products/ab-roller-1.jpg.asset.json";
+import abRoller2Img from "@/assets/products/ab-roller-2.jpg.asset.json";
+import glovesImg from "@/assets/products/gym-gloves.jpg.asset.json";
+import starterKitImg from "@/assets/products/starter-kit.jpg.asset.json";
 
-/** Placeholder product photos — replaced with the owner's real product images. */
-export const PLACEHOLDER_IMAGES = {
-  grip: gripImg,
-  gloves: glovesImg,
-  bands: bandsImg,
-  bottle: bottleImg,
-  roller: rollerImg,
-  bag: bagImg,
+/** The store's real product images, keyed by slug. */
+export const PRODUCT_IMAGES = {
+  "weightlifting-belt": beltImg.url,
+  "finger-trainer": fingerImg.url,
+  "push-up-bars": pushUpImg.url,
+  "insulated-bottle": bottleImg.url,
+  kettlebell: kettlebellImg.url,
+  "resistance-bands": bandsImg.url,
+  dumbbells: dumbbellsImg.url,
+  "foam-roller": foamRollerImg.url,
+  "hand-gripper": gripperImg.url,
+  "jump-rope": jumpRopeImg.url,
+  "exercise-mat": matImg.url,
+  "shaker-bottle": shakerImg.url,
+  "wrist-wraps": wristWrapsImg.url,
+  "lifting-straps": strapsImg.url,
+  "duffel-bag": duffelImg.url,
+  "ab-roller-1": abRoller1Img.url,
+  "ab-roller-2": abRoller2Img.url,
+  "gym-gloves": glovesImg.url,
+  "starter-kit": starterKitImg.url,
 } as const;
 
-export type PlaceholderImageKey = keyof typeof PLACEHOLDER_IMAGES;
+export type ProductImageKey = keyof typeof PRODUCT_IMAGES;
 
 export type Product = {
   slug: string;
   name: string;
   description: string;
+  /** Key selling points, taken from the product's own printed feature card. */
+  features: string[];
   collection: string;
   collectionName: string;
+  /** Placeholder USD price until the Shopify sync (Phase 3). */
   price: number;
-  image: PlaceholderImageKey;
+  image: string;
+  gallery: string[];
   sizes: string[] | null;
   isNew: boolean;
   isFeatured: boolean;
 };
 
 export const PRODUCTS: Product[] = [
-  { slug: "grip-force-adjustable-hand-gripper-for-grip-strength-training", name: "Grip Force Adjustable Hand Gripper for Grip Strength Training", description: "Improve your hand grip and forearm training with this practical hand gripper. Ideal for everyday exercise at home, in the gym, or while traveling.", collection: "hand-grip", collectionName: "Hand & Grip", price: 24.99, image: "grip", sizes: null, isNew: true, isFeatured: true },
-  { slug: "grip-force-finger-strength-trainer-for-hand-exercise", name: "Grip Force Finger Strength Trainer for Hand Exercise", description: "Exercise your fingers with a compact training accessory designed for grip practice and everyday hand workouts. Easy to carry and convenient to use at home or at the gym.", collection: "hand-grip", collectionName: "Hand & Grip", price: 13.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-hand-grip-ring-for-finger-and-hand-training", name: "Grip Force Hand Grip Ring for Finger and Hand Training", description: "Add a simple hand-strength exercise to your daily routine with this compact grip ring. Its portable design makes it suitable for home, office, or gym use.", collection: "hand-grip", collectionName: "Hand & Grip", price: 18.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-forearm-trainer-for-grip-and-forearm-workouts", name: "Grip Force Forearm Trainer for Grip and Forearm Workouts", description: "Support your forearm workout routine with this dedicated training accessory. Suitable for fitness enthusiasts who want to add grip and forearm exercises to their training sessions.", collection: "hand-grip", collectionName: "Hand & Grip", price: 23.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-hand-therapy-ball-for-squeeze-and-grip-exercises", name: "Grip Force Hand Therapy Ball for Squeeze and Grip Exercises", description: "Use this compact squeeze ball for gentle hand exercises and grip practice. Convenient for everyday use at home, at work, or during your fitness routine.", collection: "hand-grip", collectionName: "Hand & Grip", price: 12.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-gloves-for-weight-training-and-workouts", name: "Grip Force Gym Gloves for Weight Training and Workouts", description: "Make your training sessions more comfortable with workout gloves designed for gym exercises and weight training. A useful accessory for beginners and experienced fitness enthusiasts.", collection: "gym-gloves", collectionName: "Gym Gloves", price: 18.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: true },
-  { slug: "grip-force-weightlifting-grips-for-gym-training", name: "Grip Force Weightlifting Grips for Gym Training", description: "Add extra hand coverage during selected lifting exercises with these practical gym grips. Suitable for strength training, pulling movements, and regular gym workouts.", collection: "gym-gloves", collectionName: "Gym Gloves", price: 25.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-palm-protection-pads-for-weightlifting", name: "Grip Force Palm Protection Pads for Weightlifting", description: "Help protect your palms from direct contact with gym equipment using these palm pads. A convenient accessory for lifting, resistance exercises, and general strength training.", collection: "gym-gloves", collectionName: "Gym Gloves", price: 17.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-wrist-support-for-gym-and-fitness-training", name: "Grip Force Wrist Support for Gym and Fitness Training", description: "Add support around your wrists during suitable fitness activities with this practical wrist accessory. Check the product's fit and support level before choosing it for your workouts.", collection: "gym-gloves", collectionName: "Gym Gloves", price: 24.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-grip-straps-for-strength-training", name: "Grip Force Gym Grip Straps for Strength Training", description: "Use grip straps as an additional lifting accessory during selected pulling and strength exercises. A practical choice for gym users looking to complement their training equipment.", collection: "gym-gloves", collectionName: "Gym Gloves", price: 16.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-wrist-wraps-for-weightlifting-and-gym-training", name: "Grip Force Wrist Wraps for Weightlifting and Gym Training", description: "Wrap your wrists for additional support during suitable lifting exercises. Designed as a useful accessory for strength training and regular gym sessions.", collection: "strength-training", collectionName: "Strength Training", price: 34.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-weightlifting-straps-for-pulling-exercises", name: "Grip Force Weightlifting Straps for Pulling Exercises", description: "Add lifting straps to your gym setup for selected pulling and weight-training movements. A practical accessory for users who want additional help managing their grip on equipment.", collection: "strength-training", collectionName: "Strength Training", price: 23.99, image: "gloves", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-weightlifting-hooks-for-gym-strength-training", name: "Grip Force Weightlifting Hooks for Gym Strength Training", description: "These lifting hooks provide an alternative way to connect your hands to suitable lifting equipment. Check the hook design, fit, and weight rating before use.", collection: "strength-training", collectionName: "Strength Training", price: 12.99, image: "grip", sizes: null, isNew: true, isFeatured: false },
-  { slug: "grip-force-knee-sleeves-for-workout-and-weight-training", name: "Grip Force Knee Sleeves for Workout and Weight Training", description: "Wear knee sleeves as part of your workout gear for a supportive, close-fitting feel around the knees. Choose the correct size and use them according to the product instructions.", collection: "strength-training", collectionName: "Strength Training", price: 25.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-weightlifting-belt-for-strength-training", name: "Grip Force Weightlifting Belt for Strength Training", description: "Add a lifting belt to your equipment for suitable strength-training exercises. Select a belt that fits correctly and follow proper lifting technique during workouts.", collection: "strength-training", collectionName: "Strength Training", price: 14.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-resistance-bands-for-home-and-gym-workouts", name: "Grip Force Resistance Bands for Home and Gym Workouts", description: "Add versatile resistance exercises to your training routine with these fitness bands. Use them for warm-ups, stretching, strength exercises, and convenient home workouts according to their resistance level.", collection: "resistance-bands", collectionName: "Resistance Bands", price: 37.99, image: "bands", sizes: null, isNew: false, isFeatured: true },
-  { slug: "grip-force-mini-loop-resistance-bands-for-fitness-training", name: "Grip Force Mini Loop Resistance Bands for Fitness Training", description: "These compact loop bands are suitable for lower-body exercises, warm-ups, and mobility routines. Their small size makes them easy to carry in a gym bag.", collection: "resistance-bands", collectionName: "Resistance Bands", price: 38.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-resistance-tube-bands-for-strength-and-fitness", name: "Grip Force Resistance Tube Bands for Strength and Fitness", description: "Use resistance tube bands for a range of upper- and lower-body exercises. They offer a portable option for home workouts and gym training.", collection: "resistance-bands", collectionName: "Resistance Bands", price: 39.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-hip-resistance-bands-for-lower-body-workouts", name: "Grip Force Hip Resistance Bands for Lower-Body Workouts", description: "Add resistance to hip, glute, and leg exercises with these fitness bands. Suitable for warm-ups, home training, and lower-body workout routines.", collection: "resistance-bands", collectionName: "Resistance Bands", price: 40.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-resistance-band-door-anchor-for-home-workouts", name: "Grip Force Resistance Band Door Anchor for Home Workouts", description: "Attach compatible resistance bands to a suitable door anchor point to expand your exercise options at home. Always follow the installation instructions and check the anchor is secure before use.", collection: "resistance-bands", collectionName: "Resistance Bands", price: 41.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-dumbbells-for-home-gym-and-strength-training", name: "Grip Force Dumbbells for Home Gym and Strength Training", description: "Add dumbbells to your workout setup for exercises targeting different muscle groups. Suitable for strength training at home or in the gym, with weight options depending on the selected product.", collection: "strength-training", collectionName: "Strength Training", price: 43.99, image: "grip", sizes: null, isNew: false, isFeatured: true },
-  { slug: "grip-force-kettlebell-for-strength-and-functional-fitness", name: "Grip Force Kettlebell for Strength and Functional Fitness", description: "Use a kettlebell for a variety of strength, conditioning, and functional fitness exercises. Choose the appropriate weight for your experience and workout goals.", collection: "strength-training", collectionName: "Strength Training", price: 80.99, image: "gloves", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-weight-plates-for-strength-training-equipment", name: "Grip Force Weight Plates for Strength Training Equipment", description: "Add compatible weight plates to your strength-training setup for adjustable loading. Check the plate diameter, weight, and equipment compatibility before ordering.", collection: "strength-training", collectionName: "Strength Training", price: 117.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-barbell-collars-for-secure-weight-plate-setup", name: "Grip Force Barbell Collars for Secure Weight Plate Setup", description: "Use compatible barbell collars to help keep weight plates in position during training. Confirm the collar size matches your barbell before purchase.", collection: "strength-training", collectionName: "Strength Training", price: 154.99, image: "gloves", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-fitness-weight-belt-for-gym-training", name: "Grip Force Fitness Weight Belt for Gym Training", description: "Complete your gym equipment with a weight belt designed for compatible training activities. Check the sizing, materials, and intended use of the selected model before ordering.", collection: "strength-training", collectionName: "Strength Training", price: 191.99, image: "grip", sizes: null, isNew: true, isFeatured: false },
-  { slug: "grip-force-push-up-bars-for-home-strength-workouts", name: "Grip Force Push-Up Bars for Home Strength Workouts", description: "Add push-up bars to your home workout setup for supported upper-body and bodyweight exercises. Check the handle stability and recommended weight limit before use.", collection: "home-workout", collectionName: "Home Workout", price: 32.99, image: "roller", sizes: null, isNew: false, isFeatured: true },
-  { slug: "grip-force-ab-roller-for-core-workout-training", name: "Grip Force Ab Roller for Core Workout Training", description: "Train your core with an ab roller designed for controlled abdominal and bodyweight exercises. Start with a comfortable range of movement and use it on a suitable surface.", collection: "home-workout", collectionName: "Home Workout", price: 23.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-jump-rope-for-cardio-and-fitness-workouts", name: "Grip Force Jump Rope for Cardio and Fitness Workouts", description: "Add skipping sessions to your cardio routine with this practical fitness accessory. Suitable for home exercise, gym warm-ups, and outdoor training where there is enough space.", collection: "home-workout", collectionName: "Home Workout", price: 14.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-exercise-mat-for-home-and-gym-workouts", name: "Grip Force Exercise Mat for Home and Gym Workouts", description: "Create a dedicated surface for floor exercises, stretching, and bodyweight workouts with an exercise mat. Check the mat dimensions and thickness to choose the right option for your needs.", collection: "home-workout", collectionName: "Home Workout", price: 51.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-yoga-mat-for-yoga-stretching-and-fitness", name: "Grip Force Yoga Mat for Yoga, Stretching and Fitness", description: "Practice yoga, stretching, and floor-based exercises on a dedicated yoga mat. Its intended thickness, dimensions, and surface grip depend on the model you select.", collection: "home-workout", collectionName: "Home Workout", price: 42.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-pull-up-assistance-bands-for-bodyweight-training", name: "Grip Force Pull-Up Assistance Bands for Bodyweight Training", description: "Use compatible resistance bands to assist selected pull-up movements and support bodyweight training routines. Choose a suitable resistance level for your ability and exercise.", collection: "home-workout", collectionName: "Home Workout", price: 20.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gymnastic-rings-for-bodyweight-fitness", name: "Grip Force Gymnastic Rings for Bodyweight Fitness", description: "Add gymnastic rings to your training setup for a variety of bodyweight exercises. Install them on a suitable secure anchor and check the equipment's load rating before use.", collection: "home-workout", collectionName: "Home Workout", price: 57.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-parallettes-for-push-ups-and-bodyweight-workouts", name: "Grip Force Parallettes for Push-Ups and Bodyweight Workouts", description: "Use parallettes for selected bodyweight exercises, including supported push-ups and balance practice. Check the base stability and recommended load limit before training.", collection: "home-workout", collectionName: "Home Workout", price: 43.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-ab-sliders-for-core-and-full-body-workouts", name: "Grip Force Ab Sliders for Core and Full-Body Workouts", description: "Add sliding movements to your core and bodyweight exercise routine with these compact fitness accessories. Use them on a compatible surface and maintain controlled movements.", collection: "home-workout", collectionName: "Home Workout", price: 29.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-push-up-handles-for-bodyweight-strength-training", name: "Grip Force Push-Up Handles for Bodyweight Strength Training", description: "Support your push-up routine with dedicated handles designed for bodyweight workouts. Check the grip, stability, and surface compatibility before use.", collection: "home-workout", collectionName: "Home Workout", price: 66.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-duffel-bag-for-fitness-and-sports", name: "Grip Force Gym Duffel Bag for Fitness and Sports", description: "Carry your workout clothes, towels, and everyday gym essentials in one convenient bag. Check the dimensions, compartments, and carrying options of the selected model.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 41.99, image: "bag", sizes: null, isNew: false, isFeatured: true },
-  { slug: "grip-force-sports-backpack-for-gym-and-everyday-use", name: "Grip Force Sports Backpack for Gym and Everyday Use", description: "Keep your fitness essentials organized with a practical sports backpack. Suitable for carrying workout gear, personal items, and accessories to the gym or on daily outings.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 42.99, image: "bag", sizes: null, isNew: true, isFeatured: false },
-  { slug: "grip-force-gym-bag-with-shoe-compartment", name: "Grip Force Gym Bag with Shoe Compartment", description: "Keep your footwear separate from other gym essentials with a bag featuring a dedicated shoe compartment. Check the compartment dimensions and overall storage capacity before ordering.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 43.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-drawstring-sports-bag-for-gym-essentials", name: "Grip Force Drawstring Sports Bag for Gym Essentials", description: "Carry lightweight gym accessories, clothing, and everyday essentials in a simple drawstring bag. Its compact format makes it convenient for workouts and short trips.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 44.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-fitness-accessory-pouch-for-gym-organization", name: "Grip Force Fitness Accessory Pouch for Gym Organization", description: "Organize small fitness accessories, personal items, and workout essentials in one compact pouch. A convenient addition to your gym bag or travel kit.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 45.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-sports-water-bottle-for-gym-and-everyday-hydration", name: "Grip Force Sports Water Bottle for Gym and Everyday Hydration", description: "Carry water to your workouts, outdoor activities, and daily routine with a practical sports bottle. Check the capacity, material, and care instructions of the selected model.", collection: "hydration", collectionName: "Bottles & Hydration", price: 16.99, image: "bottle", sizes: null, isNew: false, isFeatured: true },
-  { slug: "grip-force-shaker-bottle-for-fitness-and-daily-use", name: "Grip Force Shaker Bottle for Fitness and Daily Use", description: "Mix suitable powdered drinks with water or other compatible liquids using a convenient shaker bottle. Check its capacity, lid design, and cleaning instructions before use.", collection: "hydration", collectionName: "Bottles & Hydration", price: 29.99, image: "bottle", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-insulated-sports-bottle-for-everyday-hydration", name: "Grip Force Insulated Sports Bottle for Everyday Hydration", description: "Carry your preferred drinks in an insulated bottle designed for everyday use. Temperature retention depends on the product's construction and manufacturer specifications.", collection: "hydration", collectionName: "Bottles & Hydration", price: 18.99, image: "bottle", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-large-capacity-water-bottle-for-gym-training", name: "Grip Force Large Capacity Water Bottle for Gym Training", description: "Keep a larger supply of water on hand during workouts, travel, or busy days. Review the exact capacity, dimensions, and carrying features before purchasing.", collection: "hydration", collectionName: "Bottles & Hydration", price: 31.99, image: "bottle", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-bottle-cleaning-brush-for-sports-bottles-and-shakers", name: "Grip Force Bottle Cleaning Brush for Sports Bottles and Shakers", description: "Clean compatible water bottles and shaker containers with a dedicated cleaning brush. Check the brush dimensions and suitability for your bottle before use.", collection: "hydration", collectionName: "Bottles & Hydration", price: 20.99, image: "bottle", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-workout-t-shirt-for-gym-and-fitness-training", name: "Grip Force Workout T-Shirt for Gym and Fitness Training", description: "Add a versatile training T-shirt to your gym wardrobe for workouts and everyday activewear. Check the fabric, available sizes, and fit guide before ordering.", collection: "gym-wear", collectionName: "Gym Wear", price: 18.99, image: "gloves", sizes: ["S", "M", "L", "XL", "XXL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-training-shorts-for-gym-and-activewear", name: "Grip Force Training Shorts for Gym and Activewear", description: "Choose training shorts for exercise sessions, sports, and everyday active use. Review the material, size chart, and fit details to find your preferred option.", collection: "gym-wear", collectionName: "Gym Wear", price: 24.99, image: "gloves", sizes: ["S", "M", "L", "XL", "XXL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-fitness-leggings-for-training-and-activewear", name: "Grip Force Fitness Leggings for Training and Activewear", description: "Complete your activewear collection with leggings suitable for workouts and everyday movement. Check the fabric composition, available sizes, and product fit information.", collection: "gym-wear", collectionName: "Gym Wear", price: 30.99, image: "gloves", sizes: ["S", "M", "L", "XL", "XXL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-sports-socks-for-gym-and-everyday-wear", name: "Grip Force Sports Socks for Gym and Everyday Wear", description: "Add sports socks to your fitness essentials for gym sessions, walking, and daily use. Select the appropriate size and review the fabric details before purchase.", collection: "gym-wear", collectionName: "Gym Wear", price: 36.99, image: "gloves", sizes: ["S", "M", "L", "XL", "XXL"], isNew: true, isFeatured: false },
-  { slug: "grip-force-sports-cap-for-outdoor-training-and-everyday-wear", name: "Grip Force Sports Cap for Outdoor Training and Everyday Wear", description: "Complete your sports outfit with a versatile cap for outdoor activities and casual wear. Check the fit, adjustment system, and material of the selected model.", collection: "gym-wear", collectionName: "Gym Wear", price: 42.99, image: "gloves", sizes: ["S", "M", "L", "XL", "XXL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-knee-sleeves-for-fitness-and-weight-training", name: "Grip Force Knee Sleeves for Fitness and Weight Training", description: "Add close-fitting knee sleeves to your workout equipment for suitable exercise activities. Choose the correct size and follow the product's usage guidance.", collection: "strength-training", collectionName: "Strength Training", price: 32.99, image: "grip", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-elbow-sleeves-for-gym-and-fitness-training", name: "Grip Force Elbow Sleeves for Gym and Fitness Training", description: "Wear elbow sleeves as part of your fitness gear during suitable training activities. Check sizing, material, and intended use before selecting a product.", collection: "strength-training", collectionName: "Strength Training", price: 41.99, image: "gloves", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-wrist-support-brace-for-everyday-and-fitness-use", name: "Grip Force Wrist Support Brace for Everyday and Fitness Use", description: "Add a wrist brace to your personal support accessories for activities that suit the product's design. Check the fit and instructions, and seek professional guidance if you need support for an injury.", collection: "strength-training", collectionName: "Strength Training", price: 22.99, image: "grip", sizes: ["S", "M", "L", "XL"], isNew: false, isFeatured: false },
-  { slug: "grip-force-ankle-support-for-fitness-and-everyday-activities", name: "Grip Force Ankle Support for Fitness and Everyday Activities", description: "Choose an ankle support designed for the intended activity and fit. Review the sizing and product instructions before use, especially if you need support for an injury.", collection: "strength-training", collectionName: "Strength Training", price: 31.99, image: "gloves", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-lifting-belt-for-gym-and-strength-training", name: "Grip Force Lifting Belt for Gym and Strength Training", description: "Add a lifting belt to your strength-training equipment for appropriate lifting exercises. Select a suitable size and use proper lifting technique.", collection: "strength-training", collectionName: "Strength Training", price: 40.99, image: "grip", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-yoga-mat-for-yoga-and-stretching", name: "Grip Force Yoga Mat for Yoga and Stretching", description: "Create a comfortable practice area for yoga, stretching, and floor exercises with a dedicated yoga mat. Check the dimensions, thickness, and surface material of the chosen model.", collection: "yoga-flexibility", collectionName: "Yoga & Flexibility", price: 29.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-yoga-block-for-balance-and-flexibility-practice", name: "Grip Force Yoga Block for Balance and Flexibility Practice", description: "Use a yoga block as a prop during suitable poses and stretching exercises. Its size and material can help you choose the right option for your practice.", collection: "yoga-flexibility", collectionName: "Yoga & Flexibility", price: 37.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-yoga-strap-for-stretching-and-yoga-practice", name: "Grip Force Yoga Strap for Stretching and Yoga Practice", description: "Add a yoga strap to your flexibility routine for assisted stretching and selected yoga poses. Check its length, material, and adjustment features before purchase.", collection: "yoga-flexibility", collectionName: "Yoga & Flexibility", price: 16.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-stretching-wheel-for-yoga-and-mobility-exercises", name: "Grip Force Stretching Wheel for Yoga and Mobility Exercises", description: "Include a stretching wheel in suitable yoga and mobility routines. Use it on a stable surface and follow the product's instructions for safe positioning and movement.", collection: "yoga-flexibility", collectionName: "Yoga & Flexibility", price: 24.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-stretch-band-for-flexibility-and-fitness-training", name: "Grip Force Stretch Band for Flexibility and Fitness Training", description: "Use a stretch band for mobility exercises, gentle stretching, and warm-up routines. Select a band with suitable resistance and follow its usage instructions.", collection: "yoga-flexibility", collectionName: "Yoga & Flexibility", price: 32.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-foam-roller-for-fitness-and-muscle-massage", name: "Grip Force Foam Roller for Fitness and Muscle Massage", description: "Add a foam roller to your warm-up, cool-down, and self-massage routine. Choose a suitable size and firmness for your preferred exercises.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 15.99, image: "roller", sizes: null, isNew: true, isFeatured: true },
-  { slug: "grip-force-massage-ball-for-targeted-self-massage", name: "Grip Force Massage Ball for Targeted Self-Massage", description: "Use a massage ball to apply controlled pressure during your self-massage routine. Its compact design makes it easy to store and carry with your fitness gear.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 16.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-muscle-roller-for-fitness-recovery-routines", name: "Grip Force Muscle Roller for Fitness Recovery Routines", description: "Add a muscle roller to your post-workout self-massage routine. Check the roller design and recommended use to select the right product for your needs.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 17.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-massage-stick-for-self-massage-and-mobility", name: "Grip Force Massage Stick for Self-Massage and Mobility", description: "Use a massage stick to apply controlled rolling pressure to suitable areas of the body. Follow the product instructions and avoid applying pressure to injured or painful areas without professional advice.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 18.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-recovery-band-for-stretching-and-mobility", name: "Grip Force Recovery Band for Stretching and Mobility", description: "Add a resistance band to your stretching and mobility routine. Its compact design makes it convenient for use at home, in the gym, or while traveling.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 19.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-towel-for-workouts-and-fitness-training", name: "Grip Force Gym Towel for Workouts and Fitness Training", description: "Keep a gym towel with your workout essentials for wiping sweat and maintaining your personal training space. Check the size, fabric, and care instructions before purchase.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 13.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-sweat-towel-for-gym-and-sports-activities", name: "Grip Force Sweat Towel for Gym and Sports Activities", description: "Carry a dedicated sweat towel for exercise sessions and sports activities. Choose a suitable size and material for your preferred workout routine.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 14.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-sports-headband-for-gym-and-activewear", name: "Grip Force Sports Headband for Gym and Activewear", description: "Add a headband to your workout outfit for exercise and everyday active use. Check the fit, fabric, and care details of the selected style.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 15.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-bag-for-fitness-accessories-and-essentials", name: "Grip Force Gym Bag for Fitness Accessories and Essentials", description: "Store your workout clothing, towel, and small fitness accessories in one convenient bag. Review its capacity, compartments, and carrying features before ordering.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 16.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-accessory-pouch-for-organized-storage", name: "Grip Force Gym Accessory Pouch for Organized Storage", description: "Keep small fitness essentials together with a compact accessory pouch. Useful for organizing straps, bands, personal items, and other compatible accessories.", collection: "gym-bags", collectionName: "Gym Bags & Essentials", price: 17.99, image: "bag", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-skipping-rope-for-cardio-and-fitness-training", name: "Grip Force Skipping Rope for Cardio and Fitness Training", description: "Add skipping exercises to your cardio routine at home, outdoors, or in the gym. Choose a suitable rope length and use it in an open space.", collection: "home-workout", collectionName: "Home Workout", price: 39.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-agility-ladder-for-footwork-and-sports-training", name: "Grip Force Agility Ladder for Footwork and Sports Training", description: "Practice footwork patterns, coordination drills, and movement exercises with an agility ladder. Suitable for sports practice and fitness sessions on an appropriate surface.", collection: "home-workout", collectionName: "Home Workout", price: 14.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-training-cones-for-agility-and-sports-drills", name: "Grip Force Training Cones for Agility and Sports Drills", description: "Set up markers for footwork, direction-change drills, and sports training activities. These versatile cones can be used in suitable indoor or outdoor training areas.", collection: "home-workout", collectionName: "Home Workout", price: 20.99, image: "roller", sizes: null, isNew: true, isFeatured: false },
-  { slug: "grip-force-reaction-ball-for-coordination-and-sports-practice", name: "Grip Force Reaction Ball for Coordination and Sports Practice", description: "Add reaction-ball drills to your training routine to practice hand-eye coordination and quick responses. Use it in a safe area with enough space for movement.", collection: "home-workout", collectionName: "Home Workout", price: 26.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-mini-training-hurdles-for-agility-workouts", name: "Grip Force Mini Training Hurdles for Agility Workouts", description: "Use mini hurdles for suitable footwork, agility, and sports-conditioning drills. Check the hurdle height and setup requirements before using them in your training area.", collection: "home-workout", collectionName: "Home Workout", price: 32.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-training-cones-for-fitness-and-sports-practice", name: "Grip Force Training Cones for Fitness and Sports Practice", description: "Mark out training zones, exercise routes, and sports drills with these versatile cones. Suitable for fitness practice, coaching sessions, and recreational activities.", collection: "home-workout", collectionName: "Home Workout", price: 15.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-coordination-ball-for-hand-eye-training", name: "Grip Force Coordination Ball for Hand-Eye Training", description: "Add coordination exercises to your fitness or sports practice with a suitable training ball. Check the ball's size, material, and intended training use before ordering.", collection: "home-workout", collectionName: "Home Workout", price: 26.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-fitness-resistance-band-for-strength-and-mobility", name: "Grip Force Fitness Resistance Band for Strength and Mobility", description: "Use a resistance band for stretching, warm-ups, and a variety of strength exercises. Select the appropriate resistance level for your routine and experience.", collection: "home-workout", collectionName: "Home Workout", price: 11.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-training-timer-for-workout-intervals", name: "Grip Force Training Timer for Workout Intervals", description: "Keep track of workout intervals, rest periods, and timed exercise sessions with a dedicated training timer. Check the display, power requirements, and available timer modes for the selected model.", collection: "home-workout", collectionName: "Home Workout", price: 22.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-fitness-accessories-kit-for-home-and-gym-workouts", name: "Grip Force Fitness Accessories Kit for Home and Gym Workouts", description: "Bring together selected fitness accessories in one convenient kit for training at home or in the gym. The included items depend on the exact bundle you choose.", collection: "home-workout", collectionName: "Home Workout", price: 33.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-mobility-training-set-for-stretching-and-movement", name: "Grip Force Mobility Training Set for Stretching and Movement", description: "Add a collection of mobility accessories to your warm-up and stretching routine. Check the included products and their instructions before starting your exercises.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 53.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-stretching-kit-for-flexibility-and-fitness", name: "Grip Force Stretching Kit for Flexibility and Fitness", description: "Organize your stretching routine with a convenient kit of selected flexibility accessories. The exact contents and suitable exercises depend on the bundle configuration.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 44.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-foam-roller-set-for-self-massage-and-recovery", name: "Grip Force Foam Roller Set for Self-Massage and Recovery", description: "Add foam-rolling equipment to your post-workout routine with a convenient set of recovery accessories. Check the included rollers, sizes, and materials before purchase.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 35.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-massage-ball-set-for-targeted-self-massage", name: "Grip Force Massage Ball Set for Targeted Self-Massage", description: "Use the included massage balls for controlled self-massage and suitable mobility routines. Review the number of balls, sizes, and firmness levels included in the set.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 26.99, image: "roller", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-recovery-accessories-bundle-for-fitness-routines", name: "Grip Force Recovery Accessories Bundle for Fitness Routines", description: "Bring selected recovery accessories together in one convenient bundle. Check the product list to see exactly which items are included before placing your order.", collection: "recovery-mobility", collectionName: "Recovery & Mobility", price: 63.99, image: "roller", sizes: null, isNew: true, isFeatured: false },
-  { slug: "grip-force-grip-strength-starter-kit-for-hand-and-forearm-training", name: "Grip Force Grip Strength Starter Kit for Hand and Forearm Training", description: "Start your grip-training routine with a selected collection of hand and forearm exercise accessories. The exact contents depend on the kit configuration.", collection: "bundles", collectionName: "Bundles & Offers", price: 96.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-gym-gloves-and-wrist-wrap-bundle", name: "Grip Force Gym Gloves and Wrist Wrap Bundle", description: "Combine gym gloves and wrist wraps in one practical training bundle. Check the included items, sizes, and color options before ordering.", collection: "bundles", collectionName: "Bundles & Offers", price: 47.99, image: "gloves", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-home-workout-starter-kit-for-everyday-fitness", name: "Grip Force Home Workout Starter Kit for Everyday Fitness", description: "Build a convenient home workout setup with a selected combination of fitness accessories. Review the included equipment to ensure it suits your exercise needs and available space.", collection: "bundles", collectionName: "Bundles & Offers", price: 84.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-resistance-band-set-for-home-and-gym-training", name: "Grip Force Resistance Band Set for Home and Gym Training", description: "Add multiple resistance-training options to your workout routine with a selected band set. Check the number of bands, resistance levels, and included accessories before purchasing.", collection: "bundles", collectionName: "Bundles & Offers", price: 35.99, image: "gloves", sizes: null, isNew: false, isFeatured: false },
-  { slug: "grip-force-premium-fitness-accessories-bundle", name: "Grip Force Premium Fitness Accessories Bundle", description: "Bring selected fitness essentials together in a convenient bundle for home workouts and gym training. The final product description should list the exact items, materials, and specifications included in the package.", collection: "bundles", collectionName: "Bundles & Offers", price: 72.99, image: "bands", sizes: null, isNew: false, isFeatured: false },
+  {
+    slug: "grip-force-hand-gripper",
+    name: "Grip Force Adjustable Hand Gripper 10–50 kg",
+    description:
+      "Build serious grip strength with an adjustable hand gripper that scales from 10 kg up to 50 kg of resistance. The ergonomic, non-slip design targets your forearm and hand muscles for both strength training and rehabilitation work.",
+    features: [
+      "Adjustable resistance from 10 kg to 50 kg",
+      "Ergonomic, non-slip handle design",
+      "Forearm & hand strengthening",
+      "Durable, high-quality materials",
+      "Portable, lightweight design",
+    ],
+    collection: "hand-grip",
+    collectionName: "Hand & Grip",
+    price: 24.99,
+    image: PRODUCT_IMAGES["hand-gripper"],
+    gallery: [PRODUCT_IMAGES["hand-gripper"]],
+    sizes: null,
+    isNew: true,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-finger-trainer",
+    name: "Grip Force Finger Trainer — Build Stronger Fingers & Hands",
+    description:
+      "Strengthen each finger and hand individually with a compact finger trainer that offers 7 adjustable resistance levels. Lightweight and flexible — train anywhere, anytime, and choose your ideal challenge level.",
+    features: [
+      "Strengthens fingers & hands",
+      "7 adjustable resistance levels",
+      "Lightweight & flexible",
+      "Compact & portable",
+      "Improves flexibility and hand strength",
+    ],
+    collection: "hand-grip",
+    collectionName: "Hand & Grip",
+    price: 13.99,
+    image: PRODUCT_IMAGES["finger-trainer"],
+    gallery: [PRODUCT_IMAGES["finger-trainer"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-push-up-bars",
+    name: "Grip Force Push-Up Bars — More Control, Stronger Push-Ups",
+    description:
+      "Take your push-ups to the next level with sturdy, comfortable push-up bars. The elevated grip improves range of motion, reduces wrist strain and lets you train your chest, arms and shoulders anywhere — home or gym.",
+    features: [
+      "Sturdy, stable support",
+      "Comfortable, easy-grip handles",
+      "Elevated grip for a deeper range of motion",
+      "Compact & portable",
+      "Upper-body training: chest, arms, shoulders",
+    ],
+    collection: "home-workout",
+    collectionName: "Home Workout",
+    price: 32.99,
+    image: PRODUCT_IMAGES["push-up-bars"],
+    gallery: [PRODUCT_IMAGES["push-up-bars"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-insulated-water-bottle",
+    name: "Grip Force Insulated Water Bottle — Stay Hydrated, Keep Moving",
+    description:
+      "A matte-black insulated bottle with double-wall vacuum insulation that keeps drinks cold or hot for hours. Durable stainless steel, a secure leak-resistant lid and an easy-carry loop make it perfect for gym, work and travel.",
+    features: [
+      "Double-wall vacuum insulation",
+      "Durable stainless steel",
+      "Secure, leak-resistant lid with loop",
+      "Easy-carry loop for workouts and daily activities",
+      "Easy to clean",
+    ],
+    collection: "hydration",
+    collectionName: "Bottles & Hydration",
+    price: 22.99,
+    image: PRODUCT_IMAGES["insulated-bottle"],
+    gallery: [PRODUCT_IMAGES["insulated-bottle"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-kettlebell",
+    name: "Grip Force Kettlebell — Power, Control, Full-Body Training",
+    description:
+      "One compact kettlebell for swings, squats, conditioning and full-body power. The durable cast-iron-style build and comfortable handle grip take you from home workouts to serious strength sessions.",
+    features: [
+      "Durable cast-iron-style construction",
+      "Comfortable, secure handle grip",
+      "Full-body exercise: swings, squats, conditioning",
+      "Strength & conditioning training",
+      "Compact for home & gym use",
+    ],
+    collection: "strength-training",
+    collectionName: "Strength Training",
+    price: 54.99,
+    image: PRODUCT_IMAGES.kettlebell,
+    gallery: [PRODUCT_IMAGES.kettlebell],
+    sizes: null,
+    isNew: false,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-resistance-bands-set",
+    name: "Grip Force Resistance Bands Set — Full-Body Training Anywhere",
+    description:
+      "A complete resistance bands set with multiple resistance levels for strength, flexibility and mobility work. Lightweight and portable — an effective full-body workout at home, in the gym, or on the road.",
+    features: [
+      "Multiple resistance levels",
+      "Full-body strength training",
+      "Flexibility & mobility support",
+      "Lightweight & portable",
+      "Warm-ups, strength work and recovery",
+    ],
+    collection: "resistance-bands",
+    collectionName: "Resistance Bands",
+    price: 27.99,
+    image: PRODUCT_IMAGES["resistance-bands"],
+    gallery: [PRODUCT_IMAGES["resistance-bands"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-dumbbells",
+    name: "Grip Force Dumbbells — Build Strength, Train Anywhere",
+    description:
+      "Hex rubber dumbbells with a durable coating that protects floors and equipment. The comfortable handle grip makes them ideal for home workouts, strength training and every session in between.",
+    features: [
+      "Durable hex rubber design",
+      "Comfortable, secure handle grip",
+      "Protects floors and equipment",
+      "Home & gym workout essentials",
+      "Ideal for curls, presses and full-body routines",
+    ],
+    collection: "strength-training",
+    collectionName: "Strength Training",
+    price: 39.99,
+    image: PRODUCT_IMAGES.dumbbells,
+    gallery: [PRODUCT_IMAGES.dumbbells],
+    sizes: null,
+    isNew: false,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-foam-roller",
+    name: "Grip Force Foam Roller — Roll. Recover. Move Better.",
+    description:
+      "A raised-texture foam roller that releases muscles for targeted relief and better mobility. Durable foam construction stands up to daily stretching, warm-ups and post-workout recovery routines.",
+    features: [
+      "Raised, textured surface for deeper relief",
+      "Muscle recovery & flexibility",
+      "Durable foam, holds shape with frequent use",
+      "Full-body use: legs, back and more",
+      "Great before and after workouts",
+    ],
+    collection: "recovery-mobility",
+    collectionName: "Recovery & Mobility",
+    price: 21.99,
+    image: PRODUCT_IMAGES["foam-roller"],
+    gallery: [PRODUCT_IMAGES["foam-roller"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-speed-jump-rope",
+    name: "Grip Force Speed Jump Rope — Skip Faster, Move Stronger",
+    description:
+      "A fast, adjustable jump rope built for cardio conditioning, speed and agility. Smooth-spinning ergonomic handles and a lightweight cable make it easy to train anywhere — home, gym or travel.",
+    features: [
+      "Cardio conditioning & endurance",
+      "Speed and agility training",
+      "Adjustable cable length",
+      "Smooth, ergonomic handles",
+      "Compact & portable",
+    ],
+    collection: "home-workout",
+    collectionName: "Home Workout",
+    price: 14.99,
+    image: PRODUCT_IMAGES["jump-rope"],
+    gallery: [PRODUCT_IMAGES["jump-rope"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-exercise-mat",
+    name: "Grip Force Exercise Mat — Comfort, Stability, Every Workout",
+    description:
+      "A non-slip exercise mat with impact-absorbing cushioning that protects your joints and floors. Flexible yet supportive, easy to roll and store — your space for home workouts, stretching and core training.",
+    features: [
+      "Non-slip textured surface",
+      "Impact-absorbing cushioning",
+      "Flexible comfort that holds its shape",
+      "Easy to roll, easy to store",
+      "Home & gym exercise space",
+    ],
+    collection: "home-workout",
+    collectionName: "Home Workout",
+    price: 25.99,
+    image: PRODUCT_IMAGES["exercise-mat"],
+    gallery: [PRODUCT_IMAGES["exercise-mat"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-protein-shaker",
+    name: "Grip Force Protein Shaker Bottle — Shake, Sip, Stay Ready",
+    description:
+      "Mix smooth shakes anywhere with a secure-lid shaker bottle that won't leak in your gym bag. Easy-mix design, practical capacity and easy-to-clean construction for gym, work and travel.",
+    features: [
+      "Secure, leak-resistant lid",
+      "Easy mixing with a blendable design",
+      "Practical everyday capacity",
+      "Easy to clean, odor-resistant",
+      "Portable — gym, work and travel",
+    ],
+    collection: "hydration",
+    collectionName: "Bottles & Hydration",
+    price: 13.99,
+    image: PRODUCT_IMAGES["shaker-bottle"],
+    gallery: [PRODUCT_IMAGES["shaker-bottle"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-wrist-wraps",
+    name: "Grip Force Weightlifting Wrist Wraps — Support Your Lifting Routine",
+    description:
+      "Durable, adjustable wrist wraps that stabilize your wrists through presses, cleans and heavy sets. Secure fastening keeps the fit consistent set after set — lift with focus and confidence.",
+    features: [
+      "Adjustable fit for a secure feel",
+      "Durable, reinforced fabric",
+      "Secure fastening that stays put",
+      "Wrist support during heavy lifts",
+      "Machine washable",
+    ],
+    collection: "strength-training",
+    collectionName: "Strength Training",
+    price: 17.99,
+    image: PRODUCT_IMAGES["wrist-wraps"],
+    gallery: [PRODUCT_IMAGES["wrist-wraps"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-lifting-straps",
+    name: "Grip Force Lifting Straps — Better Grip, Heavier Lifts",
+    description:
+      "Heavy-duty lifting straps with a secure loop design and neoprene padding that takes the strain off your grip during deadlifts, rows, shrugs and heavy pulls. Grip stronger. Lift with confidence.",
+    features: [
+      "Heavy-duty material",
+      "Secure loop design for wrist attachment",
+      "Neoprene padding reduces strain",
+      "Reinforced stitching for heavy lifts",
+      "Easy bar wrap",
+    ],
+    collection: "strength-training",
+    collectionName: "Strength Training",
+    price: 14.99,
+    image: PRODUCT_IMAGES["lifting-straps"],
+    gallery: [PRODUCT_IMAGES["lifting-straps"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-gym-duffel-bag",
+    name: "Grip Force Gym Duffel Bag — Carry Your Gear, Own Your Workout",
+    description:
+      "A spacious, durable duffel with a dedicated shoe compartment, adjustable shoulder strap and multiple pockets for smaller items. Pack everything you need — gym essentials, clothes, towels and gear.",
+    features: [
+      "Spacious main compartment",
+      "Durable, reinforced construction",
+      "Separate shoe compartment",
+      "Adjustable shoulder strap",
+      "Multiple pockets for smaller items",
+    ],
+    collection: "gym-bags",
+    collectionName: "Gym Bags",
+    price: 44.99,
+    image: PRODUCT_IMAGES["duffel-bag"],
+    gallery: [PRODUCT_IMAGES["duffel-bag"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-ab-roller",
+    name: "Grip Force Ab Roller — Roll Strong, Build Your Core",
+    description:
+      "An ab roller with dual exercise wheels and ergonomic grips for controlled, stable core workouts. Durable construction holds up through knee tuck rollouts and strength training at home or in the gym.",
+    features: [
+      "Dual exercise wheels for stability",
+      "Ergonomic, comfortable grips",
+      "Durable, stable construction",
+      "Targets abs and core",
+      "Home gym & strength training",
+    ],
+    collection: "home-workout",
+    collectionName: "Home Workout",
+    price: 23.99,
+    image: PRODUCT_IMAGES["ab-roller-1"],
+    gallery: [PRODUCT_IMAGES["ab-roller-1"], PRODUCT_IMAGES["ab-roller-2"]],
+    sizes: null,
+    isNew: false,
+    isFeatured: false,
+  },
+  {
+    slug: "grip-force-gym-gloves",
+    name: "Grip Force Gym Gloves — Premium Fitness Gear",
+    description:
+      "Training gloves with enhanced grip and palm padding that protect your hands through every set. Breathable mesh, adjustable closure and reliable wrist support for weightlifting and daily workouts.",
+    features: [
+      "Enhanced grip & palm padding",
+      "Breathable, washable mesh",
+      "Adjustable wrist closure",
+      "Reliable wrist support",
+      "Easy to clean",
+    ],
+    collection: "gym-gloves",
+    collectionName: "Gym Gloves",
+    price: 18.99,
+    image: PRODUCT_IMAGES["gym-gloves"],
+    gallery: [PRODUCT_IMAGES["gym-gloves"]],
+    sizes: ["S", "M", "L", "XL"],
+    isNew: false,
+    isFeatured: true,
+  },
+  {
+    slug: "grip-force-starter-kit",
+    name: "Grip Force Home Starter Kit",
+    description:
+      "Everything you need to start training at home in one kit: Push-Up Bars for your upper body, the Resistance Bands Set for full-body work, the Speed Jump Rope for cardio and the Exercise Mat as your training base. A complete home gym — bundled at a better price than buying separately.",
+    features: [
+      "Push-Up Bars for chest, arms and shoulders",
+      "Resistance Bands Set with multiple levels",
+      "Speed Jump Rope for cardio conditioning",
+      "Exercise Mat with non-slip cushioning",
+      "Bundle price — cheaper than buying separately",
+    ],
+    collection: "bundles",
+    collectionName: "Bundles & Offers",
+    price: 64.99,
+    image: PRODUCT_IMAGES["starter-kit"],
+    gallery: [PRODUCT_IMAGES["starter-kit"]],
+    sizes: null,
+    isNew: true,
+    isFeatured: true,
+  },
 ];
