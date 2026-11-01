@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { addToCart } from "@/lib/cart";
-import { formatPrice, productImage, productPath, type Product } from "@/lib/catalog";
+import { formatPrice, productPath, type Product } from "@/lib/catalog";
 
 export function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
@@ -17,18 +17,17 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       to={productPath(product)}
-      className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition hover:border-primary/60 hover:shadow-lg hover:shadow-primary/5"
+      className="card-lift group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card transition hover:border-primary/70"
     >
-      <div className="relative aspect-square overflow-hidden bg-light-bg">
+      <div className="relative aspect-square overflow-hidden bg-surface">
         <img
-          src={productImage(product)}
+          src={product.image}
           alt={product.name}
           loading="lazy"
-          className="size-full object-cover transition duration-300 group-hover:scale-105"
+          className="size-full object-cover transition duration-500 ease-out group-hover:scale-[1.07]"
         />
-        {product.isNew && (
-          <span className="badge-neon absolute left-3 top-3">New</span>
-        )}
+        <span className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 neon-edge" />
+        {product.isNew && <span className="badge-neon absolute left-3 top-3">New</span>}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">{product.collectionName}</p>
@@ -37,7 +36,7 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="font-display text-xl text-primary">{formatPrice(product.price)}</span>
           <button
             onClick={quickAdd}
-            className="rounded-md border border-primary/70 px-3 py-1.5 font-display text-sm uppercase tracking-wider text-primary transition hover:bg-primary hover:text-primary-foreground"
+            className="btn-add rounded-md border border-primary/70 px-3 py-1.5 font-display text-sm uppercase tracking-wider text-primary"
             aria-label={`Add ${product.name} to cart`}
           >
             {added ? "Added ✓" : "Add"}

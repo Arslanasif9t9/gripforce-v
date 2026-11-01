@@ -1,10 +1,15 @@
-import { PLACEHOLDER_IMAGES, PRODUCTS, type PlaceholderImageKey, type Product } from "./catalog-data";
+import {
+  PRODUCT_IMAGES,
+  PRODUCTS,
+  type Product,
+  type ProductImageKey,
+} from "./catalog-data";
 
 export type Collection = {
   handle: string;
   name: string;
   description: string;
-  image: PlaceholderImageKey;
+  image: string;
 };
 
 /** Main storefront collections, in navigation order. */
@@ -12,68 +17,56 @@ export const COLLECTIONS: Collection[] = [
   {
     handle: "hand-grip",
     name: "Hand & Grip",
-    description: "Grippers, finger trainers and forearm tools to build serious grip strength.",
-    image: "grip",
+    description: "Adjustable grippers and finger trainers to build serious grip strength.",
+    image: PRODUCT_IMAGES["hand-gripper"],
+  },
+  {
+    handle: "strength-training",
+    name: "Strength Training",
+    description: "Belts, wraps, straps, dumbbells and kettlebells for heavy sessions.",
+    image: PRODUCT_IMAGES["weightlifting-belt"],
   },
   {
     handle: "gym-gloves",
     name: "Gym Gloves",
     description: "Padded, breathable gloves that protect your palms through every set.",
-    image: "gloves",
-  },
-  {
-    handle: "strength-training",
-    name: "Strength Training",
-    description: "Straps, wraps, belts, sleeves and free weights for heavy sessions.",
-    image: "grip",
+    image: PRODUCT_IMAGES["gym-gloves"],
   },
   {
     handle: "home-workout",
     name: "Home Workout",
-    description: "Compact equipment for effective training without leaving home.",
-    image: "roller",
+    description: "Push-up bars, ab rollers, jump ropes and mats for training at home.",
+    image: PRODUCT_IMAGES["push-up-bars"],
   },
   {
     handle: "resistance-bands",
     name: "Resistance Bands",
-    description: "Loop, tube and fabric bands for strength, mobility and warm-ups.",
-    image: "bands",
+    description: "A complete band set for strength, mobility and warm-ups.",
+    image: PRODUCT_IMAGES["resistance-bands"],
   },
   {
     handle: "gym-bags",
-    name: "Gym Bags & Essentials",
-    description: "Duffels, backpacks and small essentials that keep your kit organized.",
-    image: "bag",
+    name: "Gym Bags",
+    description: "Duffels that keep your kit organized and ready to go.",
+    image: PRODUCT_IMAGES["duffel-bag"],
   },
   {
     handle: "hydration",
     name: "Bottles & Hydration",
-    description: "Shakers and insulated bottles built for gym, work and travel.",
-    image: "bottle",
+    description: "Insulated bottles and shakers built for gym, work and travel.",
+    image: PRODUCT_IMAGES["insulated-bottle"],
   },
   {
     handle: "recovery-mobility",
     name: "Recovery & Mobility",
-    description: "Foam rollers, massage tools and stretch gear for faster recovery.",
-    image: "roller",
-  },
-  {
-    handle: "yoga-flexibility",
-    name: "Yoga & Flexibility",
-    description: "Mats, blocks and straps for yoga, pilates and stretching routines.",
-    image: "roller",
-  },
-  {
-    handle: "gym-wear",
-    name: "Gym Wear",
-    description: "Training tops, shorts, sweatbands and wearable gym accessories.",
-    image: "gloves",
+    description: "Foam rollers and massage tools for faster recovery.",
+    image: PRODUCT_IMAGES["foam-roller"],
   },
   {
     handle: "bundles",
     name: "Bundles & Offers",
     description: "Curated accessory kits at a better price than buying separately.",
-    image: "bands",
+    image: PRODUCT_IMAGES["starter-kit"],
   },
 ];
 
@@ -109,13 +102,13 @@ export function searchProducts(query: string): Product[] {
   if (!q) return [];
   const terms = q.split(/\s+/);
   return PRODUCTS.filter((p) => {
-    const haystack = `${p.name} ${p.collectionName} ${p.description}`.toLowerCase();
+    const haystack = `${p.name} ${p.collectionName} ${p.description} ${p.features.join(" ")}`.toLowerCase();
     return terms.every((t) => haystack.includes(t));
   });
 }
 
 export function productImage(product: Pick<Product, "image">): string {
-  return PLACEHOLDER_IMAGES[product.image];
+  return product.image;
 }
 
 export function formatPrice(price: number): string {
@@ -126,5 +119,5 @@ export function productPath(product: Pick<Product, "slug">): string {
   return `/product/${product.slug}`;
 }
 
-export { PRODUCTS, PLACEHOLDER_IMAGES };
-export type { Product, PlaceholderImageKey };
+export { PRODUCTS, PRODUCT_IMAGES };
+export type { Product, ProductImageKey };
