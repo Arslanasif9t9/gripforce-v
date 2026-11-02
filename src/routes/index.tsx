@@ -281,7 +281,7 @@ function Index() {
                 ))}
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link to={`/product/${starterKit.slug}`} className="btn-neon text-lg">
+                <Link to="/product/$slug" params={{ slug: starterKit.slug }} className="btn-neon text-lg">
                   View Starter Kit
                 </Link>
               </div>
