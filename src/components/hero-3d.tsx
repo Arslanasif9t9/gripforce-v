@@ -1,14 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import type { Group } from "three";
 
 const NEON = "#a3ff12";
 
+/** Deterministic pseudo-random in [0, 1) — no Math.random at module scope. */
+function rand(seed: number) {
+  const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 /**
- * Stylized matte-black dumbbell with neon accents, floating over a dark floor.
- * Reacts to the cursor (tilt) and slowly rotates on its own; the whole scene is
- * hand-modeled — no external model file, so nothing can 404.
+ * Stylized matte-black dumbbell with neon accents, floating over a dark floor
+ * inside a slow-rotating neon ring with drifting particles. Reacts to the
+ * cursor (tilt) and slowly rotates on its own; the scene is hand-modeled —
+ * no external model file, so nothing can 404.
  */
 export default function Hero3D() {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -30,6 +37,8 @@ export default function Hero3D() {
         <directionalLight position={[4, 6, 3]} intensity={1.4} />
         <pointLight position={[-4, 1.5, -2]} intensity={40} color={NEON} />
         <pointLight position={[3, -2, 2]} intensity={18} color={NEON} />
+        <NeonRing />
+        <Particles />
         <Dumbbell />
         <ContactShadows position={[0, -1.35, 0]} opacity={0.55} scale={9} blur={2.6} far={4} />
         <Environment resolution={256}>
@@ -39,6 +48,65 @@ export default function Hero3D() {
         </Environment>
       </Canvas>
     </div>
+  );
+}
+
+/** Large tilted neon ring behind the dumbbell, slowly counter-rotating. */
+function NeonRing() {
+  const ref = useRef<Group>(null);
+  useFrame((_, delta) => {
+    const dt = Math.min(delta, 0.05);
+    if (ref.current) {
+      ref.current.rotation.z += dt * 0.12;
+      ref.current.rotation.x = 1.15 + Math.sin(_.clock.elapsedTime * 0.4) * 0.05;
+    }
+  });
+  return (
+    <group ref={ref} position={[0, 0.15, -1.2]} rotation={[1.15, 0, 0]}>
+      <mesh>
+        <torusGeometry args={[2.3, 0.022, 12, 96]} />
+        <meshStandardMaterial color={NEON} emissive={NEON} emissiveIntensity={1.8} />
+      </mesh>
+      <mesh>
+        <torusGeometry args={[2.55, 0.008, 10, 96]} />
+        <meshStandardMaterial color={NEON} emissive={NEON} emissiveIntensity={0.9} transparent opacity={0.55} />
+      </mesh>
+    </group>
+  );
+}
+
+/** Small floating neon particles that drift upward and wrap around. */
+function Particles() {
+  const ref = useRef<Group>(null);
+  const seeds = useMemo(() => Array.from({ length: 26 }, (_, i) => i), []);
+
+  useFrame((state, delta) => {
+    const dt = Math.min(delta, 0.05);
+    const g = ref.current;
+    if (!g) return;
+    g.children.forEach((child, i) => {
+      child.position.y += dt * (0.08 + rand(i) * 0.12);
+      if (child.position.y > 2.2) child.position.y = -1.6;
+      child.position.x = Math.sin(state.clock.elapsedTime * 0.5 + i) * (0.4 + rand(i + 40) * 1.6);
+    });
+  });
+
+  return (
+    <group ref={ref}>
+      {seeds.map((i) => (
+        <mesh
+          key={i}
+          position={[
+            (rand(i) - 0.5) * 6,
+            rand(i + 10) * 4 - 1.6,
+            (rand(i + 20) - 0.5) * 3,
+          ]}
+        >
+          <sphereGeometry args={[0.02 + rand(i + 30) * 0.025, 8, 8]} />
+          <meshStandardMaterial color={NEON} emissive={NEON} emissiveIntensity={2.4} />
+        </mesh>
+      ))}
+    </group>
   );
 }
 
