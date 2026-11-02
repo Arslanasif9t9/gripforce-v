@@ -6,7 +6,7 @@ import { Reveal, SectionHeading } from "@/components/motion";
 import { ProductCard } from "@/components/product-card";
 import { ProductRail } from "@/components/product-rail";
 import { TiltBox } from "@/components/tilt-image";
-import { COLLECTIONS, featuredProducts, productImage, productsByCollection } from "@/lib/catalog";
+import { COLLECTIONS, PRODUCTS, featuredProducts, productImage, productsByCollection } from "@/lib/catalog";
 
 /** 3D hero is browser-only (WebGL) — loaded on the client, never during SSR. */
 const Hero3D = lazy(() => import("@/components/hero-3d"));
@@ -88,9 +88,9 @@ const GYM_ESSENTIALS_SLUGS = [
 function Index() {
   const featured = featuredProducts();
   const homeWorkout = productsByCollection("home-workout");
-  const gymEssentials = featured.filter(() => false).length >= 0 ? [] : [];
-  void gymEssentials;
-  const essentials = featuredBySlug(GYM_ESSENTIALS_SLUGS);
+  const essentials = GYM_ESSENTIALS_SLUGS.map((slug) => PRODUCTS.find((p) => p.slug === slug)).filter(
+    (p): p is NonNullable<typeof p> => Boolean(p),
+  );
   const starterKit = productsByCollection("bundles")[0];
   const categories = COLLECTIONS.slice(0, 8);
 
@@ -350,20 +350,6 @@ function Index() {
       </section>
     </div>
   );
-}
-
-/** Products for the Gym Essentials rail, in catalog order. */
-function featuredBySlug(slugs: string[]) {
-  const all = featuredBySlugSource();
-  return slugs
-    .map((slug) => all.find((p) => p.slug === slug))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
-}
-
-function featuredBySlugSource() {
-  // Imported lazily to keep the top of the file tidy.
-  const { PRODUCTS } = require("@/lib/catalog") as typeof import("@/lib/catalog");
-  return PRODUCTS;
 }
 
 function NewsletterForm() {

@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ProductCard } from "@/components/product-card";
+import { TiltImage } from "@/components/tilt-image";
 import { addToCart } from "@/lib/cart";
-import { formatPrice, getProduct, productImage, relatedProducts } from "@/lib/catalog";
+import { formatPrice, getProduct, relatedProducts } from "@/lib/catalog";
 
 export const Route = createFileRoute("/product/$slug")({
   beforeLoad: ({ params }) => {
@@ -29,6 +30,8 @@ function ProductPage() {
   const { slug } = Route.useParams();
   const product = getProduct(slug)!;
   const related = relatedProducts(product);
+  const gallery = product.gallery.length > 0 ? product.gallery : [product.image];
+  const [activeImg, setActiveImg] = useState(0);
   const [size, setSize] = useState<string | null>(product.sizes?.[0] ?? null);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -57,17 +60,31 @@ function ProductPage() {
       </nav>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
-        {/* Gallery */}
+        {/* Gallery — 3D perspective tilt on hover */}
         <div>
           <div className="overflow-hidden rounded-2xl border border-border bg-light-bg">
-            <img
-              src={productImage(product)}
-              alt={product.name}
-              className="aspect-square size-full object-cover"
-            />
+            <TiltImage src={gallery[activeImg] ?? ""} alt={product.name} className="aspect-square" maxDeg={12} />
           </div>
+          {gallery.length > 1 && (
+            <div className="mt-3 flex gap-3" role="tablist" aria-label="Product images">
+              {gallery.map((img, i) => (
+                <button
+                  key={img + i}
+                  role="tab"
+                  aria-selected={activeImg === i}
+                  aria-label={`Show image ${i + 1} of ${product.name}`}
+                  onClick={() => setActiveImg(i)}
+                  className={`size-20 overflow-hidden rounded-lg border-2 transition ${
+                    activeImg === i ? "border-primary" : "border-border hover:border-primary/60"
+                  }`}
+                >
+                  <img src={img} alt="" className="size-full object-cover" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
           <p className="mt-3 text-xs text-muted-foreground">
-            Product photos are being updated — the final photography will match the exact item you receive.
+            Hover the image on desktop — it moves in 3D so you can inspect every angle. On touch devices, tap a thumbnail to switch views.
           </p>
         </div>
 
@@ -79,6 +96,19 @@ function ProductPage() {
           <p className="mt-1 text-sm text-muted-foreground">Price shown in USD</p>
 
           <p className="mt-6 leading-relaxed text-foreground/90">{product.description}</p>
+
+          {product.features.length > 0 && (
+            <div className="mt-6">
+              <h2 className="font-display text-lg uppercase tracking-wider">Key Features</h2>
+              <ul className="mt-3 space-y-2">
+                {product.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2 text-sm text-foreground/90">
+                    <span className="mt-0.5 text-primary" aria-hidden>✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {product.sizes && (
             <div className="mt-6">
@@ -148,7 +178,7 @@ function ProductPage() {
               <dt className="font-display text-base uppercase tracking-wider text-foreground">Returns</dt>
               <dd className="mt-1 text-sm text-muted-foreground">
                 Changed your mind? Our returns policy explains the conditions and steps.{" "}
-                <Link to="/policies/returns" className="text-primary underline">Returns & refunds</Link>
+                <Link to="/policies/returns" className="text-primary underline">Returns &amp; refunds</Link>
               </dd>
             </div>
             <div className="py-4">
