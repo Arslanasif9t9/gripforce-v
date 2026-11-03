@@ -3,6 +3,7 @@ import fingerImg from "@/assets/products/finger-trainer.jpg.asset.json";
 import pushUpImg from "@/assets/products/push-up-bars.jpg.asset.json";
 import bottleImg from "@/assets/products/insulated-bottle.jpg.asset.json";
 import bandsImg from "@/assets/products/resistance-bands.jpg.asset.json";
+import kettlebellImg from "@/assets/products/kettlebell.jpg.asset.json";
 import dumbbellsImg from "@/assets/products/dumbbells.jpg.asset.json";
 import foamRollerImg from "@/assets/products/foam-roller.jpg.asset.json";
 import gripperImg from "@/assets/products/hand-gripper.jpg.asset.json";
