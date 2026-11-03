@@ -74,7 +74,15 @@ export function SiteFooter() {
       <div className="border-t border-border">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-center sm:flex-row sm:text-left">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Grip Force. All rights reserved.
+            © {new Date().getFullYear()} Grip Force. All rights reserved. ·{" "}
+            <a
+              href="https://www.linkedin.com/in/arslan9t9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary"
+            >
+              Developed by Arslanasif9t9
+            </a>
           </p>
           <p className="font-display text-sm uppercase tracking-[0.2em] text-muted-foreground">
             Train Hard. <span className="text-primary">Grip Strong.</span>

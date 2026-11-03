@@ -195,3 +195,134 @@
   padding: 0.2rem 0.6rem;
   text-transform: uppercase;
 }
+
+/* ================= Motion & effects ================= */
+
+/*
+ * No default scrollbar anywhere — a slim neon progress bar at the top of the
+ * page (ScrollProgress) gives scroll feedback instead.
+ */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Radial neon glows + subtle grain on hero/banner sections. */
+.gf-glow {
+  isolation: isolate;
+}
+.gf-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(640px 340px at 82% 18%, rgba(163, 255, 18, 0.1), transparent 62%),
+    radial-gradient(520px 300px at 6% 88%, rgba(163, 255, 18, 0.06), transparent 62%);
+}
+.gf-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Neon glow used on the progress bar, trust dot and accents. */
+.neon-glow {
+  box-shadow: 0 0 10px rgba(163, 255, 18, 0.6), 0 0 26px rgba(163, 255, 18, 0.25);
+}
+
+/* Neon border sweep inside rounded card images on hover. */
+.neon-edge {
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 2px rgba(163, 255, 18, 0.85), inset 0 0 26px rgba(163, 255, 18, 0.14);
+}
+
+/* Card hover: lift + neon shadow. */
+.card-lift {
+  will-change: transform;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(163, 255, 18, 0.3),
+    0 0 24px rgba(163, 255, 18, 0.14);
+}
+
+/* Ticker strip. */
+.marquee-track {
+  animation: marquee-scroll 30s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Swiper rails: neon circular arrows, tone-aware. */
+.gf-rail .swiper-button-next,
+.gf-rail .swiper-button-prev {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: 0 0 18px rgba(163, 255, 18, 0.35);
+  transition: transform 150ms ease, filter 150ms ease;
+}
+.gf-rail .swiper-button-next:hover,
+.gf-rail .swiper-button-prev:hover {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+.gf-rail .swiper-button-next::after,
+.gf-rail .swiper-button-prev::after {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.gf-rail .swiper-button-disabled {
+  opacity: 0.35;
+}
+.gf-rail[data-tone="light"] .swiper-button-next,
+.gf-rail[data-tone="light"] .swiper-button-prev {
+  background-color: oklch(0.185 0 0);
+  color: oklch(0.97 0.002 106);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+.gf-rail .swiper-slide {
+  height: auto;
+}
+
+/* Quick "Add" button on product cards fills neon on hover. */
+.btn-add {
+  transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+.btn-add:hover {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: 0 0 16px rgba(163, 255, 18, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .card-lift:hover {
+    transform: none;
+  }
+}
