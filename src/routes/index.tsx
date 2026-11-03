@@ -75,14 +75,14 @@ const FAQS = [
 ];
 
 const GYM_ESSENTIALS_SLUGS = [
-  "gym-gloves",
-  "wrist-wraps",
-  "lifting-straps",
-  "dumbbells",
-  "kettlebell",
-  "duffel-bag",
-  "insulated-bottle",
-  "shaker-bottle",
+  "grip-force-gym-gloves",
+  "grip-force-wrist-wraps",
+  "grip-force-lifting-straps",
+  "grip-force-dumbbells",
+  "grip-force-kettlebell",
+  "grip-force-gym-duffel-bag",
+  "grip-force-insulated-water-bottle",
+  "grip-force-protein-shaker",
 ];
 
 function Index() {

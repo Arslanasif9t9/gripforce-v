@@ -2,8 +2,8 @@ import beltImg from "@/assets/products/weightlifting-belt.jpg.asset.json";
 import fingerImg from "@/assets/products/finger-trainer.jpg.asset.json";
 import pushUpImg from "@/assets/products/push-up-bars.jpg.asset.json";
 import bottleImg from "@/assets/products/insulated-bottle.jpg.asset.json";
-import kettlebellImg from "@/assets/products/kettlebell.jpg.asset.json";
 import bandsImg from "@/assets/products/resistance-bands.jpg.asset.json";
+import kettlebellImg from "@/assets/products/kettlebell.jpg.asset.json";
 import dumbbellsImg from "@/assets/products/dumbbells.jpg.asset.json";
 import foamRollerImg from "@/assets/products/foam-roller.jpg.asset.json";
 import gripperImg from "@/assets/products/hand-gripper.jpg.asset.json";
@@ -18,27 +18,47 @@ import abRoller2Img from "@/assets/products/ab-roller-2.jpg.asset.json";
 import glovesImg from "@/assets/products/gym-gloves.jpg.asset.json";
 import starterKitImg from "@/assets/products/starter-kit.jpg.asset.json";
 
-/** The store's real product images, keyed by slug. */
+/**
+ * The store's real product images, keyed by the product they show.
+ * NOTE: the uploaded files' names do not match what the images actually show
+ * (the ZIP arrived shuffled), so keys here deliberately point at the file
+ * whose *content* is that product — verified by reading each infographic.
+ */
 export const PRODUCT_IMAGES = {
-  "weightlifting-belt": beltImg.url,
-  "finger-trainer": fingerImg.url,
-  "push-up-bars": pushUpImg.url,
-  "insulated-bottle": bottleImg.url,
-  kettlebell: kettlebellImg.url,
-  "resistance-bands": bandsImg.url,
-  dumbbells: dumbbellsImg.url,
-  "foam-roller": foamRollerImg.url,
-  "hand-gripper": gripperImg.url,
-  "jump-rope": jumpRopeImg.url,
-  "exercise-mat": matImg.url,
-  "shaker-bottle": shakerImg.url,
-  "wrist-wraps": wristWrapsImg.url,
-  "lifting-straps": strapsImg.url,
-  "duffel-bag": duffelImg.url,
-  "ab-roller-1": abRoller1Img.url,
-  "ab-roller-2": abRoller2Img.url,
-  "gym-gloves": glovesImg.url,
-  "starter-kit": starterKitImg.url,
+  "weightlifting-belt": beltImg.url, // correct
+  "finger-trainer": fingerImg.url, // correct
+  // file "insulated-bottle.jpg" shows the push-up bars card
+  "push-up-bars": bottleImg.url,
+  // file "kettlebell.jpg" shows the insulated water bottle card
+  "insulated-bottle": kettlebellImg.url,
+  // file "resistance-bands.jpg" shows the kettlebell card
+  kettlebell: bandsImg.url,
+  // file "dumbbells.jpg" shows the resistance bands card
+  "resistance-bands": dumbbellsImg.url,
+  // file "foam-roller.jpg" shows the dumbbells card
+  dumbbells: foamRollerImg.url,
+  // file "push-up-bars.jpg" shows the foam roller card
+  "foam-roller": pushUpImg.url,
+  // file "jump-rope.jpg" shows the adjustable hand gripper card
+  "hand-gripper": jumpRopeImg.url,
+  // file "exercise-mat.jpg" shows the speed jump rope card
+  "jump-rope": matImg.url,
+  // file "shaker-bottle.jpg" shows the exercise mat card
+  "exercise-mat": shakerImg.url,
+  // file "wrist-wraps.jpg" shows the protein shaker card
+  "shaker-bottle": wristWrapsImg.url,
+  // file "lifting-straps.jpg" shows the wrist wraps card
+  "wrist-wraps": strapsImg.url,
+  // file "duffel-bag.jpg" shows the lifting straps card
+  "lifting-straps": duffelImg.url,
+  // file "ab-roller-1.jpg" shows the gym duffel bag card
+  "duffel-bag": abRoller1Img.url,
+  // file "gym-gloves.jpg" shows an ab roller card (angle 1 of 2)
+  "ab-roller-1": glovesImg.url,
+  "ab-roller-2": abRoller2Img.url, // ab roller, angle 2 — correct
+  // file "hand-gripper.jpg" shows the gym gloves card
+  "gym-gloves": gripperImg.url,
+  "starter-kit": starterKitImg.url, // 4-card collage — correct
 } as const;
 
 export type ProductImageKey = keyof typeof PRODUCT_IMAGES;
