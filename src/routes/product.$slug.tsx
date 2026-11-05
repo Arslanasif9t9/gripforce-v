@@ -84,7 +84,7 @@ function ProductPage() {
             </div>
           )}
           <p className="mt-3 text-xs text-muted-foreground">
-            Hover the image on desktop — it moves in 3D so you can inspect every angle. On touch devices, tap a thumbnail to switch views.
+            Hover the image on desktop to see a subtle 3D tilt. On touch devices, tap a thumbnail to switch between available photos.
           </p>
         </div>
 
