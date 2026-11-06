@@ -11,9 +11,11 @@
 
 # Grip Force — architecture rules
 
-- Product data lives in `src/lib/catalog-data.ts` (static, generated from the
-  owner's uploaded product list) until Phase 2 moves it to Lovable Cloud. No
-  Supabase/backend imports anywhere until then.
+- The storefront may retain its Phase 1 static catalog while Phase 2 adds
+  Lovable Cloud-managed products and admin tools; do not switch customer-facing
+  catalog reads until the database catalog is verified and ready to replace it.
+- Admin access is granted only to the owner's verified email through the
+  database role trigger; admin reads and writes must remain protected by RLS.
 - Brand tokens live only in `src/styles.css`; components use semantic classes
   (btn-neon, badge-neon, heading-section, light-* tokens), never raw colors.
 - Prices are placeholder USD values; real prices arrive from Shopify in Phase 3.
