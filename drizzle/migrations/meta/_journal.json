@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794057935254,
+      "tag": "0000_phase2_store_and_access_foundation",
+      "breakpoints": true
+    }
+  ]
 }

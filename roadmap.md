@@ -1,6 +1,6 @@
 # Grip Force — Roadmap
 
-## Phase 1 — Storefront, no database/backend/admin (current)
+## Phase 1 — Storefront (complete)
 - [x] Brand: logo, favicon, black + neon green design system
 - [x] Static catalog: 16 pictured products plus the Starter Kit, 9 collections, placeholder USD prices
 - [x] Pages: home, shop, collections, product, cart, search, about, contact, FAQ,
@@ -9,12 +9,15 @@
 - [x] Product photos supplied and mapped to the 16-product catalog
 - [ ] Owner sends real prices (or sync from Shopify later)
 
-## Phase 2 — Database + admin panel (approved next phase)
-- [ ] Enable Lovable Cloud
-- [ ] Move catalog + orders + customers to the database
-- [ ] Admin panel & dashboard adapted from the R.Z Shoes ZIP: products, orders,
-      customers, marketing (badges/coupons), settings, support chat
-- [ ] Customer accounts, order tracking, reviews
+## Phase 2 — Database + admin panel (in progress)
+- [x] Enable Lovable Cloud
+- [ ] Add secure customer sign-in and owner-only admin access
+- [ ] Add database tables for products, orders, order items, coupons,
+      promotions, settings, and support messages
+- [ ] Import and verify the static catalog in the database before any storefront switch
+- [ ] Admin dashboard adapted from the R.Z Shoes ZIP: products, orders,
+      customers, marketing (badges/coupons), settings, support
+- [ ] Customer account/order history, order tracking, reviews
 
 ## Phase 3 — Shopify connection + launch
 - [ ] Connect owner's existing Shopify store "Grip Force" (store_type: existing)
