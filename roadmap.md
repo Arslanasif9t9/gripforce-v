@@ -11,10 +11,13 @@
 
 ## Phase 2 — Database + admin panel (in progress)
 - [x] Enable Lovable Cloud
-- [ ] Add secure customer sign-in and owner-only admin access
-- [ ] Add database tables for products, orders, order items, coupons,
-      promotions, settings, and support messages
-- [ ] Import and verify the static catalog in the database before any storefront switch
+- [x] Owner-only admin role (DB trigger + RLS) — done in DB
+- [ ] Sign-in / sign-up page and admin route guard (UI)
+- [x] Database tables: products, orders, order items, coupons, promo banners,
+      settings, support messages (`drizzle/migrations/0000_...`)
+- [x] Seed SQL written: `drizzle/seeds/001_seed_products.sql` (17 products)
+- [ ] Run the seed in Lovable and verify count = 17
+- [ ] Switch storefront reads from code catalog to DB
 - [ ] Admin dashboard adapted from the R.Z Shoes ZIP: products, orders,
       customers, marketing (badges/coupons), settings, support
 - [ ] Customer account/order history, order tracking, reviews
@@ -25,3 +28,8 @@
 - [ ] Cart → Shopify secure checkout; payment provider (Pakistan merchant) config
 - [ ] Shipping rates, markets/USD, policies finalized in Shopify admin
 - [ ] Owner guide: how to run the store day to day in Shopify admin
+
+
+## Docs (always keep updated)
+- [x] README.md, HANDOVER.md, docs/DATABASE.md, docs/CHANGELOG.md created 2026-11-09
+- [ ] After every change: update CHANGELOG, roadmap, and DATABASE.md if the DB changed
