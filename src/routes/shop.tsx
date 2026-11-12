@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProductCard } from "@/components/product-card";
-import { COLLECTIONS, PRODUCTS } from "@/lib/catalog";
+import { COLLECTIONS } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 
 type Search = { collection?: string | undefined; sort?: string | undefined };
 
@@ -36,6 +37,7 @@ const SORTS = [
 function ShopPage() {
   const { collection, sort } = Route.useSearch();
   const navigate = Route.useNavigate();
+  const PRODUCTS = useCatalog();
 
   let products = PRODUCTS;
   if (collection) products = products.filter((p) => p.collection === collection);

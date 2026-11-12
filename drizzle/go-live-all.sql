@@ -1,0 +1,114 @@
+-- ============================================================================
+-- GRIP FORCE — GO-LIVE SQL (run ONCE in Lovable > Cloud > SQL editor)
+-- Contains, in order: migration 0001, migration 0002, seed 001 (17 products).
+-- Run this BEFORE or right after pushing the code. Do NOT run it twice:
+-- migrations 0001/0002 create policies and a constraint that already exist the second time.
+-- (The seed part alone is safe to repeat: drizzle/seeds/001_seed_products.sql)
+-- At the end, one check query shows: published_products = 17, image_bucket = 1,
+-- support_user_id_nullable = YES.
+-- ============================================================================
+
+-- ======================= PART 1: 0001_guest_support_messages =================
+-- 0001: let guests (not signed in) send support messages from the Contact page.
+-- Run in: Lovable > Cloud > SQL editor, BEFORE pushing the code that uses it.
+-- Safe to run once. Existing rows are not changed.
+
+-- 1) A guest has no user id.
+ALTER TABLE public.support_messages ALTER COLUMN user_id DROP NOT NULL;
+
+-- 2) Basic size limits (stops huge spam messages).
+ALTER TABLE public.support_messages
+  ADD CONSTRAINT support_messages_length_check CHECK (
+    char_length(customer_name) BETWEEN 1 AND 120
+    AND char_length(customer_email) BETWEEN 3 AND 254
+    AND char_length(subject) BETWEEN 1 AND 200
+    AND char_length(message) BETWEEN 1 AND 5000
+  );
+
+-- 3) Guests may only INSERT (never read). New messages must start as 'open'.
+GRANT INSERT ON public.support_messages TO anon;
+CREATE POLICY "Guests can submit support messages" ON public.support_messages
+  FOR INSERT TO anon WITH CHECK (user_id IS NULL AND status = 'open');
+
+-- 4) Signed-in customers: same rule, new messages must start as 'open'.
+DROP POLICY "Customers can submit support messages" ON public.support_messages;
+CREATE POLICY "Customers can submit support messages" ON public.support_messages
+  FOR INSERT TO authenticated WITH CHECK (user_id = auth.uid() AND status = 'open');
+
+-- ======================= PART 2: 0002_product_images_storage =================
+-- 0002: storage bucket for product images uploaded from /admin.
+-- Run in: Lovable > Cloud > SQL editor, BEFORE pushing the code that uses it.
+
+-- Public bucket: anyone can VIEW an image by its link. Only admins can add/change/delete.
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('product-images', 'product-images', true, 5242880, ARRAY['image/jpeg', 'image/png', 'image/webp'])
+ON CONFLICT (id) DO UPDATE SET
+  public = true,
+  file_size_limit = EXCLUDED.file_size_limit,
+  allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+CREATE POLICY "Admins can view product image files" ON storage.objects
+  FOR SELECT TO authenticated
+  USING (bucket_id = 'product-images' AND public.has_role('admin'::public.app_role));
+
+CREATE POLICY "Admins can upload product images" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (bucket_id = 'product-images' AND public.has_role('admin'::public.app_role));
+
+CREATE POLICY "Admins can update product images" ON storage.objects
+  FOR UPDATE TO authenticated
+  USING (bucket_id = 'product-images' AND public.has_role('admin'::public.app_role))
+  WITH CHECK (bucket_id = 'product-images' AND public.has_role('admin'::public.app_role));
+
+CREATE POLICY "Admins can delete product images" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (bucket_id = 'product-images' AND public.has_role('admin'::public.app_role));
+
+-- ======================= PART 3: seed 001 (17 products) ======================
+-- Seed: import the 17 static catalog products into public.products.
+-- Safe to run more than once (ON CONFLICT updates by slug).
+-- Run in: Lovable > Cloud > SQL editor. Generated from src/lib/catalog-data.ts.
+INSERT INTO public.products
+  (slug, name, description, features, collection_handle, collection_name, price, image_url, gallery, sizes, is_new, is_featured, status, sort_order)
+VALUES
+  ('grip-force-hand-gripper', 'Grip Force Adjustable Hand Gripper 10–50 kg', 'Build serious grip strength with an adjustable hand gripper that scales from 10 kg up to 50 kg of resistance. The ergonomic, non-slip design targets your forearm and hand muscles for both strength training and rehabilitation work.', ARRAY['Adjustable resistance from 10 kg to 50 kg', 'Ergonomic, non-slip handle design', 'Forearm & hand strengthening', 'Durable, high-quality materials', 'Portable, lightweight design']::text[], 'hand-grip', 'Hand & Grip', 24.99, '/__l5e/assets-v1/2d5641cd-baba-41be-9fdf-0fe25cf12f7d/jump-rope.jpg', ARRAY['/__l5e/assets-v1/2d5641cd-baba-41be-9fdf-0fe25cf12f7d/jump-rope.jpg']::text[], NULL, true, true, 'published', 10),
+  ('grip-force-finger-trainer', 'Grip Force Finger Trainer — Build Stronger Fingers & Hands', 'Strengthen each finger and hand individually with a compact finger trainer that offers 7 adjustable resistance levels. Lightweight and flexible — train anywhere, anytime, and choose your ideal challenge level.', ARRAY['Strengthens fingers & hands', '7 adjustable resistance levels', 'Lightweight & flexible', 'Compact & portable', 'Improves flexibility and hand strength']::text[], 'hand-grip', 'Hand & Grip', 13.99, '/__l5e/assets-v1/dffd7b32-8edc-4137-8be8-73a32f3e67ca/finger-trainer.jpg', ARRAY['/__l5e/assets-v1/dffd7b32-8edc-4137-8be8-73a32f3e67ca/finger-trainer.jpg']::text[], NULL, false, false, 'published', 20),
+  ('grip-force-push-up-bars', 'Grip Force Push-Up Bars — More Control, Stronger Push-Ups', 'Take your push-ups to the next level with sturdy, comfortable push-up bars. The elevated grip improves range of motion, reduces wrist strain and lets you train your chest, arms and shoulders anywhere — home or gym.', ARRAY['Sturdy, stable support', 'Comfortable, easy-grip handles', 'Elevated grip for a deeper range of motion', 'Compact & portable', 'Upper-body training: chest, arms, shoulders']::text[], 'home-workout', 'Home Workout', 32.99, '/__l5e/assets-v1/d70f4128-70e6-4d8d-8313-5c22a5d49ce1/insulated-bottle.jpg', ARRAY['/__l5e/assets-v1/d70f4128-70e6-4d8d-8313-5c22a5d49ce1/insulated-bottle.jpg']::text[], NULL, false, false, 'published', 30),
+  ('grip-force-insulated-water-bottle', 'Grip Force Insulated Water Bottle — Stay Hydrated, Keep Moving', 'A matte-black insulated bottle with double-wall vacuum insulation that keeps drinks cold or hot for hours. Durable stainless steel, a secure leak-resistant lid and an easy-carry loop make it perfect for gym, work and travel.', ARRAY['Double-wall vacuum insulation', 'Durable stainless steel', 'Secure, leak-resistant lid with loop', 'Easy-carry loop for workouts and daily activities', 'Easy to clean']::text[], 'hydration', 'Bottles & Hydration', 22.99, '/__l5e/assets-v1/babf9cf3-a45a-40a4-a8d9-5068cdce6b3b/kettlebell.jpg', ARRAY['/__l5e/assets-v1/babf9cf3-a45a-40a4-a8d9-5068cdce6b3b/kettlebell.jpg']::text[], NULL, false, false, 'published', 40),
+  ('grip-force-kettlebell', 'Grip Force Kettlebell — Power, Control, Full-Body Training', 'One compact kettlebell for swings, squats, conditioning and full-body power. The durable cast-iron-style build and comfortable handle grip take you from home workouts to serious strength sessions.', ARRAY['Durable cast-iron-style construction', 'Comfortable, secure handle grip', 'Full-body exercise: swings, squats, conditioning', 'Strength & conditioning training', 'Compact for home & gym use']::text[], 'strength-training', 'Strength Training', 54.99, '/__l5e/assets-v1/b96e2d27-cae3-4466-a078-6f3d765c0634/resistance-bands.jpg', ARRAY['/__l5e/assets-v1/b96e2d27-cae3-4466-a078-6f3d765c0634/resistance-bands.jpg']::text[], NULL, false, true, 'published', 50),
+  ('grip-force-resistance-bands-set', 'Grip Force Resistance Bands Set — Full-Body Training Anywhere', 'A complete resistance bands set with multiple resistance levels for strength, flexibility and mobility work. Lightweight and portable — an effective full-body workout at home, in the gym, or on the road.', ARRAY['Multiple resistance levels', 'Full-body strength training', 'Flexibility & mobility support', 'Lightweight & portable', 'Warm-ups, strength work and recovery']::text[], 'resistance-bands', 'Resistance Bands', 27.99, '/__l5e/assets-v1/4cf9433f-abfa-4cee-8da2-9669374ab80a/dumbbells.jpg', ARRAY['/__l5e/assets-v1/4cf9433f-abfa-4cee-8da2-9669374ab80a/dumbbells.jpg']::text[], NULL, false, true, 'published', 60),
+  ('grip-force-dumbbells', 'Grip Force Dumbbells — Build Strength, Train Anywhere', 'Hex rubber dumbbells with a durable coating that protects floors and equipment. The comfortable handle grip makes them ideal for home workouts, strength training and every session in between.', ARRAY['Durable hex rubber design', 'Comfortable, secure handle grip', 'Protects floors and equipment', 'Home & gym workout essentials', 'Ideal for curls, presses and full-body routines']::text[], 'strength-training', 'Strength Training', 39.99, '/__l5e/assets-v1/045b9e9d-18c2-4d8a-8d0e-2f17ca54d823/foam-roller.jpg', ARRAY['/__l5e/assets-v1/045b9e9d-18c2-4d8a-8d0e-2f17ca54d823/foam-roller.jpg']::text[], NULL, false, true, 'published', 70),
+  ('grip-force-foam-roller', 'Grip Force Foam Roller — Roll. Recover. Move Better.', 'A raised-texture foam roller that releases muscles for targeted relief and better mobility. Durable foam construction stands up to daily stretching, warm-ups and post-workout recovery routines.', ARRAY['Raised, textured surface for deeper relief', 'Muscle recovery & flexibility', 'Durable foam, holds shape with frequent use', 'Full-body use: legs, back and more', 'Great before and after workouts']::text[], 'recovery-mobility', 'Recovery & Mobility', 21.99, '/__l5e/assets-v1/343d76dc-2fd9-4575-9623-1fbf07f7cb7d/push-up-bars.jpg', ARRAY['/__l5e/assets-v1/343d76dc-2fd9-4575-9623-1fbf07f7cb7d/push-up-bars.jpg']::text[], NULL, false, false, 'published', 80),
+  ('grip-force-speed-jump-rope', 'Grip Force Speed Jump Rope — Skip Faster, Move Stronger', 'A fast, adjustable jump rope built for cardio conditioning, speed and agility. Smooth-spinning ergonomic handles and a lightweight cable make it easy to train anywhere — home, gym or travel.', ARRAY['Cardio conditioning & endurance', 'Speed and agility training', 'Adjustable cable length', 'Smooth, ergonomic handles', 'Compact & portable']::text[], 'home-workout', 'Home Workout', 14.99, '/__l5e/assets-v1/9c45a481-888e-4446-81e2-c35e658b15a3/exercise-mat.jpg', ARRAY['/__l5e/assets-v1/9c45a481-888e-4446-81e2-c35e658b15a3/exercise-mat.jpg']::text[], NULL, false, true, 'published', 90),
+  ('grip-force-exercise-mat', 'Grip Force Exercise Mat — Comfort, Stability, Every Workout', 'A non-slip exercise mat with impact-absorbing cushioning that protects your joints and floors. Flexible yet supportive, easy to roll and store — your space for home workouts, stretching and core training.', ARRAY['Non-slip textured surface', 'Impact-absorbing cushioning', 'Flexible comfort that holds its shape', 'Easy to roll, easy to store', 'Home & gym exercise space']::text[], 'home-workout', 'Home Workout', 25.99, '/__l5e/assets-v1/52201b01-7187-4e40-9022-2db06c2f517b/shaker-bottle.jpg', ARRAY['/__l5e/assets-v1/52201b01-7187-4e40-9022-2db06c2f517b/shaker-bottle.jpg']::text[], NULL, false, false, 'published', 100),
+  ('grip-force-protein-shaker', 'Grip Force Protein Shaker Bottle — Shake, Sip, Stay Ready', 'Mix smooth shakes anywhere with a secure-lid shaker bottle that won''t leak in your gym bag. Easy-mix design, practical capacity and easy-to-clean construction for gym, work and travel.', ARRAY['Secure, leak-resistant lid', 'Easy mixing with a blendable design', 'Practical everyday capacity', 'Easy to clean, odor-resistant', 'Portable — gym, work and travel']::text[], 'hydration', 'Bottles & Hydration', 13.99, '/__l5e/assets-v1/b6434881-dd58-4b59-a440-2d6567b1e6d0/wrist-wraps.jpg', ARRAY['/__l5e/assets-v1/b6434881-dd58-4b59-a440-2d6567b1e6d0/wrist-wraps.jpg']::text[], NULL, false, false, 'published', 110),
+  ('grip-force-wrist-wraps', 'Grip Force Weightlifting Wrist Wraps — Support Your Lifting Routine', 'Durable, adjustable wrist wraps that stabilize your wrists through presses, cleans and heavy sets. Secure fastening keeps the fit consistent set after set — lift with focus and confidence.', ARRAY['Adjustable fit for a secure feel', 'Durable, reinforced fabric', 'Secure fastening that stays put', 'Wrist support during heavy lifts', 'Machine washable']::text[], 'strength-training', 'Strength Training', 17.99, '/__l5e/assets-v1/973ec217-d970-4255-a961-e5b69e4cf070/lifting-straps.jpg', ARRAY['/__l5e/assets-v1/973ec217-d970-4255-a961-e5b69e4cf070/lifting-straps.jpg']::text[], NULL, false, false, 'published', 120),
+  ('grip-force-lifting-straps', 'Grip Force Lifting Straps — Better Grip, Heavier Lifts', 'Heavy-duty lifting straps with a secure loop design and neoprene padding that takes the strain off your grip during deadlifts, rows, shrugs and heavy pulls. Grip stronger. Lift with confidence.', ARRAY['Heavy-duty material', 'Secure loop design for wrist attachment', 'Neoprene padding reduces strain', 'Reinforced stitching for heavy lifts', 'Easy bar wrap']::text[], 'strength-training', 'Strength Training', 14.99, '/__l5e/assets-v1/48133c23-26c9-4307-9b16-7c7ddbbe2ab5/duffel-bag.jpg', ARRAY['/__l5e/assets-v1/48133c23-26c9-4307-9b16-7c7ddbbe2ab5/duffel-bag.jpg']::text[], NULL, false, false, 'published', 130),
+  ('grip-force-gym-duffel-bag', 'Grip Force Gym Duffel Bag — Carry Your Gear, Own Your Workout', 'A spacious, durable duffel with a dedicated shoe compartment, adjustable shoulder strap and multiple pockets for smaller items. Pack everything you need — gym essentials, clothes, towels and gear.', ARRAY['Spacious main compartment', 'Durable, reinforced construction', 'Separate shoe compartment', 'Adjustable shoulder strap', 'Multiple pockets for smaller items']::text[], 'gym-bags', 'Gym Bags', 44.99, '/__l5e/assets-v1/912eb4bc-37a2-4327-9252-a9676ccc7056/ab-roller-1.jpg', ARRAY['/__l5e/assets-v1/912eb4bc-37a2-4327-9252-a9676ccc7056/ab-roller-1.jpg']::text[], NULL, false, true, 'published', 140),
+  ('grip-force-ab-roller', 'Grip Force Ab Roller — Roll Strong, Build Your Core', 'An ab roller with dual exercise wheels and ergonomic grips for controlled, stable core workouts. Durable construction holds up through knee tuck rollouts and strength training at home or in the gym.', ARRAY['Dual exercise wheels for stability', 'Ergonomic, comfortable grips', 'Durable, stable construction', 'Targets abs and core', 'Home gym & strength training']::text[], 'home-workout', 'Home Workout', 23.99, '/__l5e/assets-v1/c67efe1a-6589-46e9-9a45-c4e64c400d16/gym-gloves.jpg', ARRAY['/__l5e/assets-v1/c67efe1a-6589-46e9-9a45-c4e64c400d16/gym-gloves.jpg', '/__l5e/assets-v1/69099c60-be81-499a-a119-4a7194aa262b/ab-roller-2.jpg']::text[], NULL, false, false, 'published', 150),
+  ('grip-force-gym-gloves', 'Grip Force Gym Gloves — Premium Fitness Gear', 'Training gloves with enhanced grip and palm padding that protect your hands through every set. Breathable mesh, adjustable closure and reliable wrist support for weightlifting and daily workouts.', ARRAY['Enhanced grip & palm padding', 'Breathable, washable mesh', 'Adjustable wrist closure', 'Reliable wrist support', 'Easy to clean']::text[], 'gym-gloves', 'Gym Gloves', 18.99, '/__l5e/assets-v1/1de68b04-dd5e-4ccf-abd7-10aaee3f542c/hand-gripper.jpg', ARRAY['/__l5e/assets-v1/1de68b04-dd5e-4ccf-abd7-10aaee3f542c/hand-gripper.jpg']::text[], ARRAY['S', 'M', 'L', 'XL']::text[], false, true, 'published', 160),
+  ('grip-force-starter-kit', 'Grip Force Home Starter Kit', 'Everything you need to start training at home in one kit: Push-Up Bars for your upper body, the Resistance Bands Set for full-body work, the Speed Jump Rope for cardio and the Exercise Mat as your training base. A complete home gym — bundled at a better price than buying separately.', ARRAY['Push-Up Bars for chest, arms and shoulders', 'Resistance Bands Set with multiple levels', 'Speed Jump Rope for cardio conditioning', 'Exercise Mat with non-slip cushioning', 'Bundle price — cheaper than buying separately']::text[], 'bundles', 'Bundles & Offers', 64.99, '/__l5e/assets-v1/40ff3437-ee41-4ac9-85d9-40531e376041/starter-kit.jpg', ARRAY['/__l5e/assets-v1/40ff3437-ee41-4ac9-85d9-40531e376041/starter-kit.jpg']::text[], NULL, true, true, 'published', 170)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  features = EXCLUDED.features,
+  collection_handle = EXCLUDED.collection_handle,
+  collection_name = EXCLUDED.collection_name,
+  price = EXCLUDED.price,
+  image_url = EXCLUDED.image_url,
+  gallery = EXCLUDED.gallery,
+  sizes = EXCLUDED.sizes,
+  is_new = EXCLUDED.is_new,
+  is_featured = EXCLUDED.is_featured,
+  status = EXCLUDED.status,
+  sort_order = EXCLUDED.sort_order,
+  updated_at = now();
+
+
+-- ======================= CHECK (the result you should see) ===================
+SELECT
+  (SELECT count(*) FROM public.products WHERE status = 'published')              AS published_products,   -- expect 17
+  (SELECT count(*) FROM storage.buckets WHERE id = 'product-images')            AS image_bucket,         -- expect 1
+  (SELECT is_nullable FROM information_schema.columns
+     WHERE table_schema = 'public' AND table_name = 'support_messages'
+       AND column_name = 'user_id')                                              AS support_user_id_nullable; -- expect YES

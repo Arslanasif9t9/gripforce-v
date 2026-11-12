@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { PRODUCTS, getProduct, productImage, type Product } from "./catalog";
+import { productImage, type Product } from "./catalog";
+import { findActiveProduct } from "./catalog-store";
 
 const STORAGE_KEY = "grip-force-cart-v1";
 
@@ -46,7 +47,7 @@ function writeRaw(items: CartItem[]) {
 function compute(items: CartItem[]): CartState {
   const lines: CartLine[] = [];
   for (const item of items) {
-    const product = getProduct(item.slug);
+    const product = findActiveProduct(item.slug);
     if (!product) continue;
     lines.push({ ...item, product, lineTotal: product.price * item.qty });
   }
@@ -58,7 +59,7 @@ function compute(items: CartItem[]): CartState {
 }
 
 export function addToCart(slug: string, size: string | null = null, qty = 1) {
-  const product = PRODUCTS.find((p) => p.slug === slug);
+  const product = findActiveProduct(slug);
   if (!product) return;
   const items = readRaw();
   const existing = items.find((i) => i.slug === slug && i.size === size);

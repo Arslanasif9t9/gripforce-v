@@ -74,34 +74,34 @@ export function getCollection(handle: string): Collection | undefined {
   return COLLECTIONS.find((c) => c.handle === handle);
 }
 
-export function productsByCollection(handle: string): Product[] {
-  return PRODUCTS.filter((p) => p.collection === handle);
+export function productsByCollection(handle: string, list: Product[] = PRODUCTS): Product[] {
+  return list.filter((p) => p.collection === handle);
 }
 
-export function getProduct(slug: string): Product | undefined {
-  return PRODUCTS.find((p) => p.slug === slug);
+export function getProduct(slug: string, list: Product[] = PRODUCTS): Product | undefined {
+  return list.find((p) => p.slug === slug);
 }
 
-export function featuredProducts(): Product[] {
-  return PRODUCTS.filter((p) => p.isFeatured);
+export function featuredProducts(list: Product[] = PRODUCTS): Product[] {
+  return list.filter((p) => p.isFeatured);
 }
 
-export function newProducts(): Product[] {
-  return PRODUCTS.filter((p) => p.isNew);
+export function newProducts(list: Product[] = PRODUCTS): Product[] {
+  return list.filter((p) => p.isNew);
 }
 
-export function relatedProducts(product: Product, count = 4): Product[] {
-  const same = PRODUCTS.filter((p) => p.collection === product.collection && p.slug !== product.slug);
+export function relatedProducts(product: Product, count = 4, list: Product[] = PRODUCTS): Product[] {
+  const same = list.filter((p) => p.collection === product.collection && p.slug !== product.slug);
   if (same.length >= count) return same.slice(0, count);
-  const others = PRODUCTS.filter((p) => p.collection !== product.collection && p.slug !== product.slug);
+  const others = list.filter((p) => p.collection !== product.collection && p.slug !== product.slug);
   return [...same, ...others].slice(0, count);
 }
 
-export function searchProducts(query: string): Product[] {
+export function searchProducts(query: string, list: Product[] = PRODUCTS): Product[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
   const terms = q.split(/\s+/);
-  return PRODUCTS.filter((p) => {
+  return list.filter((p) => {
     const haystack = `${p.name} ${p.collectionName} ${p.description} ${p.features.join(" ")}`.toLowerCase();
     return terms.every((t) => haystack.includes(t));
   });

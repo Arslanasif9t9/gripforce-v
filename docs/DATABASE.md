@@ -9,6 +9,10 @@ Source of truth for structure: `drizzle/migrations/*.sql`. Types for code: `src/
 | File | What |
 |---|---|
 | `0000_phase2_store_and_access_foundation.sql` | Roles, admin trigger, 7 tables, RLS, indexes |
+| `0002_product_images_storage.sql` | Public Storage bucket `product-images` (5 MB, JPG/PNG/WebP). Only admins can upload/change/delete |
+| `0001_guest_support_messages.sql` | Guests can send support messages (`user_id` nullable, size limits, new messages must be `open`) |
+
+Run order on a fresh project: 0000 → 0001 → 0002 → seed 001.
 
 Seeds (data, run by hand): `drizzle/seeds/001_seed_products.sql`
 
@@ -17,6 +21,23 @@ Seeds (data, run by hand): `drizzle/seeds/001_seed_products.sql`
 - Table `user_roles(user_id, role)`. A user can read only their own roles.
 - Function `has_role(_role)` (security definer). Every admin RLS policy uses it.
 - Trigger `grip_force_assign_owner_admin` on `auth.users`: gives `admin` only when the email is **verified** and equals the owner email (written inside function `assign_grip_force_admin`). Otherwise the admin role is removed.
+
+### How to become admin
+1. Open `/login` → "Create an account" → use the **exact owner email** written in function `assign_grip_force_admin`.
+2. Click the confirmation link in the email (the email must be verified).
+3. Sign in. The trigger gives the `admin` role. `/admin` now opens.
+
+If that user already existed before, the trigger may not have run. Fix by hand (SQL editor), replace the email:
+```sql
+insert into public.user_roles (user_id, role)
+select id, 'admin' from auth.users
+where email = 'OWNER_EMAIL_HERE' and email_confirmed_at is not null
+on conflict do nothing;
+```
+Check the owner email stored in the function:
+```sql
+select pg_get_functiondef('public.assign_grip_force_admin'::regproc);
+```
 
 ## 3. Tables
 ### products
@@ -45,8 +66,8 @@ Seeds (data, run by hand): `drizzle/seeds/001_seed_products.sql`
 - Admin only.
 
 ### support_messages
-`id`, `user_id`, `customer_name`, `customer_email`, `subject`, `message`, `status` (`open|in_progress|closed`), `created_at`, `updated_at`
-- Customer: insert and read own. Admin: all actions.
+`id`, `user_id` (null for guests, since 0001), `customer_name`, `customer_email`, `subject`, `message`, `status` (`open|in_progress|closed`), `created_at`, `updated_at`
+- Guest (not signed in): insert only, no read (0001). Signed-in customer: insert and read own. Admin: all actions.
 
 ### user_roles
 See section 2.
@@ -59,7 +80,8 @@ See section 2.
 - Public coupon read exposes all active coupon codes. Better: validate by a server function.
 - Guest checkout is not possible (`orders.user_id` NOT NULL).
 - No reviews table yet (planned Phase 2).
-- No Storage bucket yet for admin image upload.
+- Storage: bucket `product-images` (since 0002). Images are public by link.
+- `orders` / `order_items` are unused for now (Shopify handles orders).
 
 ## 6. How to run SQL (Lovable)
 1. Open the Lovable project → Cloud → Database → SQL editor.

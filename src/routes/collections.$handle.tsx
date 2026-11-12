@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ProductCard } from "@/components/product-card";
 import { COLLECTIONS, getCollection, productsByCollection } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 
 export const Route = createFileRoute("/collections/$handle")({
   beforeLoad: ({ params }) => {
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/collections/$handle")({
 function CollectionPage() {
   const { handle } = Route.useParams();
   const collection = getCollection(handle)!;
-  const products = productsByCollection(handle);
+  const products = productsByCollection(handle, useCatalog());
 
   return (
     <div className="container-page py-10">

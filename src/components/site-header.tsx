@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import logo from "@/assets/grip-force-logo.png";
 import { COLLECTIONS } from "@/lib/catalog";
 import { useCartCount } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { useActiveBanner } from "@/lib/banners";
 
 const PRIMARY = ["hand-grip", "gym-gloves", "strength-training", "home-workout", "resistance-bands"];
 const MORE_HANDLES = ["gym-bags", "hydration", "recovery-mobility", "yoga-flexibility", "gym-wear", "bundles"];
@@ -28,6 +30,8 @@ function CartIcon() {
 
 export function SiteHeader() {
   const count = useCartCount();
+  const { user, isAdmin } = useAuth();
+  const banner = useActiveBanner();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -56,9 +60,15 @@ export function SiteHeader() {
       {/* Announcement bar */}
       <div className="bg-primary text-primary-foreground">
         <div className="container-page flex items-center justify-center gap-3 py-1.5 text-center">
-          <p className="font-display text-sm uppercase tracking-[0.15em]">
-            Premium fitness accessories — Train Hard. Grip Strong.
-          </p>
+          {banner?.href ? (
+            <a href={banner.href} className="font-display text-sm uppercase tracking-[0.15em] hover:underline">
+              {banner.title}
+            </a>
+          ) : (
+            <p className="font-display text-sm uppercase tracking-[0.15em]">
+              {banner?.title ?? "Premium fitness accessories — Train Hard. Grip Strong."}
+            </p>
+          )}
         </div>
       </div>
 
@@ -154,6 +164,16 @@ export function SiteHeader() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="size-5">
                 <circle cx="12" cy="12" r="9" />
                 <path d="M12 7v5l3 2" strokeLinecap="round" />
+              </svg>
+            </Link>
+            <Link
+              to={isAdmin ? "/admin" : "/login"}
+              className="rounded-md p-2 text-foreground hover:bg-secondary"
+              aria-label={isAdmin ? "Admin dashboard" : user ? "Account" : "Sign in"}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="size-5">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" strokeLinecap="round" />
               </svg>
             </Link>
             <Link to="/cart" className="relative rounded-md p-2 text-foreground hover:bg-secondary" aria-label={`Cart (${count} items)`}>

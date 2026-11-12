@@ -6,7 +6,8 @@ import { Reveal, SectionHeading } from "@/components/motion";
 import { ProductCard } from "@/components/product-card";
 import { ProductRail } from "@/components/product-rail";
 import { TiltBox } from "@/components/tilt-image";
-import { COLLECTIONS, PRODUCTS, featuredProducts, productImage, productsByCollection } from "@/lib/catalog";
+import { COLLECTIONS, featuredProducts, productImage, productsByCollection } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 
 /** 3D hero is browser-only (WebGL) — loaded on the client, never during SSR. */
 const Hero3D = lazy(() => import("@/components/hero-3d"));
@@ -86,12 +87,13 @@ const GYM_ESSENTIALS_SLUGS = [
 ];
 
 function Index() {
-  const featured = featuredProducts();
-  const homeWorkout = productsByCollection("home-workout");
+  const PRODUCTS = useCatalog();
+  const featured = featuredProducts(PRODUCTS);
+  const homeWorkout = productsByCollection("home-workout", PRODUCTS);
   const essentials = GYM_ESSENTIALS_SLUGS.map((slug) => PRODUCTS.find((p) => p.slug === slug)).filter(
     (p): p is NonNullable<typeof p> => Boolean(p),
   );
-  const starterKit = productsByCollection("bundles")[0];
+  const starterKit = productsByCollection("bundles", PRODUCTS)[0];
   const categories = COLLECTIONS.slice(0, 8);
 
   return (

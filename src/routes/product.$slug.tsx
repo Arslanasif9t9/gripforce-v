@@ -4,13 +4,17 @@ import { ProductCard } from "@/components/product-card";
 import { TiltImage } from "@/components/tilt-image";
 import { addToCart } from "@/lib/cart";
 import { formatPrice, getProduct, relatedProducts } from "@/lib/catalog";
+import { fetchCatalog, useCatalog } from "@/lib/catalog-store";
 
 export const Route = createFileRoute("/product/$slug")({
-  beforeLoad: ({ params }) => {
-    if (!getProduct(params.slug)) throw notFound();
+  // Loads from the database (falls back to the built-in list), so new products added in /admin work.
+  loader: async ({ params }) => {
+    const product = getProduct(params.slug, await fetchCatalog());
+    if (!product) throw notFound();
+    return { product };
   },
-  head: ({ params }) => {
-    const product = getProduct(params.slug);
+  head: ({ loaderData }) => {
+    const product = loaderData?.product;
     if (!product) return { meta: [{ title: "Product not found — Grip Force" }] };
     return {
       meta: [
@@ -27,9 +31,8 @@ export const Route = createFileRoute("/product/$slug")({
 });
 
 function ProductPage() {
-  const { slug } = Route.useParams();
-  const product = getProduct(slug)!;
-  const related = relatedProducts(product);
+  const { product } = Route.useLoaderData();
+  const related = relatedProducts(product, 4, useCatalog());
   const gallery = product.gallery.length > 0 ? product.gallery : [product.image];
   const [activeImg, setActiveImg] = useState(0);
   const [size, setSize] = useState<string | null>(product.sizes?.[0] ?? null);

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ProductCard } from "@/components/product-card";
 import { searchProducts } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-store";
 
 type Search = { q?: string | undefined };
 
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/search")({
 
 function SearchPage() {
   const { q = "" } = Route.useSearch();
-  const results = searchProducts(q);
+  const results = searchProducts(q, useCatalog());
 
   return (
     <div className="container-page py-10">
