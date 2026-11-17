@@ -85,7 +85,7 @@ function CheckoutPage() {
           subtotal: cart.subtotal,
           shipping_total: shippingCost,
           total: grandTotal,
-        })
+        } as any)
         .select("id, order_number")
         .single();
 
@@ -324,7 +324,7 @@ function CheckoutPage() {
 
           <ul className="mt-4 divide-y divide-border">
             {cart.lines.map((line) => (
-              <li key={`${line.product.id}-${line.size || "std"}`} className="py-3 text-sm">
+              <li key={`${line.product.slug}-${line.size || "std"}`} className="py-3 text-sm">
                 <div className="flex justify-between">
                   <div className="font-medium text-foreground">
                     {line.product.name}
