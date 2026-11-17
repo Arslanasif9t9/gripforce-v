@@ -167,7 +167,7 @@ export function SiteHeader() {
               </svg>
             </Link>
             <Link
-              to={isAdmin ? "/admin" : "/login"}
+              to={isAdmin ? "/admin" : user ? "/account" : "/login"}
               className="rounded-md p-2 text-foreground hover:bg-secondary"
               aria-label={isAdmin ? "Admin dashboard" : user ? "Account" : "Sign in"}
             >
