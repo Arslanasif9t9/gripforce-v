@@ -37,29 +37,19 @@ function TrackPage() {
     setItems([]);
 
     try {
-      // 1. Fetch order by order_number
-      const { data: orderData, error: orderErr } = await supabase
-        .from("orders")
-        .select("*")
-        .eq("order_number", cleanNumber)
-        .maybeSingle();
+      // Secure RPC call jo direct database table expose nahi karti
+      const { data, error: rpcErr } = await supabase
+        .rpc("get_order_status", { p_order_number: cleanNumber });
 
-      if (orderErr) throw orderErr;
+      if (rpcErr) throw rpcErr;
 
-      if (!orderData) {
+      if (!data) {
         setError(`No order found matching "${cleanNumber}". Please check the number in your receipt.`);
         return;
       }
 
-      setOrder(orderData);
-
-      // 2. Fetch order items
-      const { data: itemsData } = await supabase
-        .from("order_items")
-        .select("*")
-        .eq("order_id", orderData.id);
-
-      if (itemsData) setItems(itemsData);
+      setOrder(data);
+      setItems(data.items || []);
     } catch (err: any) {
       console.error("Track failed:", err);
       setError("Unable to retrieve order details. Please check your connection.");
