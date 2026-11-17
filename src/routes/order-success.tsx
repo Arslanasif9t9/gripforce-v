@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, PackageCheck, ArrowRight, Truck } from "lucide-react";
 
-type OrderSuccessSearch = { order?: string };
+type OrderSuccessSearch = { order?: string | undefined };
 
 export const Route = createFileRoute("/order-success")({
   validateSearch: (search: Record<string, unknown>): OrderSuccessSearch => ({
