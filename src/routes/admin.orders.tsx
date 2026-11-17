@@ -227,6 +227,23 @@ function AdminOrdersPage() {
                           )}
                         </div>
                       </div>
+                      {/* Bank Slip Attachment (if uploaded) */}
+                      {ord.receipt_url && (
+                        <div className="mt-3 rounded border border-primary/30 bg-primary/5 p-3">
+                          <p className="text-[11px] font-bold uppercase tracking-wider text-primary">
+                            Payment Proof Attached:
+                          </p>
+                          <a
+                            href={ord.receipt_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 inline-flex items-center gap-1.5 text-xs text-foreground underline hover:text-primary"
+                          >
+                            📄 View Payment Slip Screenshot ↗
+                          </a>
+                        </div>
+                      )}
+
 
                       {/* Status & Courier Tracking Controls */}
                       <div className="space-y-4">
