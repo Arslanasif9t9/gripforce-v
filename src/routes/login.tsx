@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
@@ -27,7 +26,7 @@ function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
-  // Already signed in: admin goes to the dashboard, others go home.
+  // Already signed in: admin goes to dashboard, customer goes to home
   useEffect(() => {
     if (loading || !user) return;
     navigate({ to: isAdmin ? "/admin" : "/" });
@@ -38,23 +37,35 @@ function LoginPage() {
     setError(null);
     setNotice(null);
     const cleanEmail = email.trim();
-    if (!cleanEmail || password.length < 8) {
-      setError("Enter your email and a password of at least 8 characters.");
+
+    if (!cleanEmail) {
+      setError("Please enter your email address.");
       return;
     }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
     setBusy(true);
     try {
       if (mode === "signin") {
         const { error: err } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
-        if (err) setError(err.message);
+        if (err) {
+          setError(err.message === "Invalid login credentials" ? "Invalid email or password. Please try again." : err.message);
+        }
       } else {
         const { error: err } = await supabase.auth.signUp({
           email: cleanEmail,
           password,
           options: { emailRedirectTo: `${window.location.origin}/login` },
         });
-        if (err) setError(err.message);
-        else setNotice("Account created. Check your email and click the confirmation link, then sign in.");
+        if (err) {
+          setError(err.message);
+        } else {
+          setNotice("Account created successfully! Check your email and click the confirmation link, then sign in.");
+        }
       }
     } finally {
       setBusy(false);
@@ -78,22 +89,12 @@ function LoginPage() {
     else setNotice("If this email has an account, a reset link is on its way. Check your inbox.");
   };
 
-  const google = async () => {
-    setError(null);
-    setBusy(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/login`,
-    });
-    if (result.error) setError(result.error.message);
-    setBusy(false);
-  };
-
   return (
     <div className="container-page flex justify-center py-16">
       <div className="w-full max-w-md rounded-xl border border-border bg-card p-6 sm:p-8">
         <h1 className="heading-section text-center">{mode === "signin" ? "Sign in" : "Create account"}</h1>
         <p className="mt-2 text-center text-sm text-muted-foreground">
-          {mode === "signin" ? "Welcome back to Grip Force." : "Join Grip Force to track orders and contact support."}
+          {mode === "signin" ? "Welcome back to Grip Force." : "Join Grip Force to track orders and save your delivery details."}
         </p>
 
         <form onSubmit={submit} className="mt-6 grid gap-3">
@@ -105,6 +106,7 @@ function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={inputClass}
+              placeholder="you@example.com"
               required
             />
           </label>
@@ -116,9 +118,15 @@ function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={inputClass}
+              placeholder="••••••••"
               minLength={8}
               required
             />
+            {mode === "signup" && (
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Minimum 8 characters. Must not be a common or easily guessable password.
+              </p>
+            )}
           </label>
 
           {error && (
@@ -138,20 +146,10 @@ function LoginPage() {
             </button>
           )}
 
-          <button type="submit" disabled={busy} className="btn-neon mt-1 w-full disabled:opacity-60">
+          <button type="submit" disabled={busy} className="btn-neon mt-2 w-full disabled:opacity-60">
             {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
           </button>
         </form>
-
-        <div className="my-5 flex items-center gap-3 text-xs uppercase text-muted-foreground">
-          <span className="h-px flex-1 bg-border" />
-          or
-          <span className="h-px flex-1 bg-border" />
-        </div>
-
-        <button type="button" onClick={google} disabled={busy} className="btn-outline-dark w-full disabled:opacity-60">
-          Continue with Google
-        </button>
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
           {mode === "signin" ? "New here?" : "Already have an account?"}{" "}
