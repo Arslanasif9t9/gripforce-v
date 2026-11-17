@@ -108,9 +108,13 @@ function CartPage() {
             </div>
             <p className="mt-1 text-xs text-muted-foreground">Prices in USD</p>
           </div>
-          <button className="btn-neon mt-6 w-full" onClick={() => undefined} disabled title="Checkout launches with the store opening">
-            Proceed to Checkout
-          </button>
+          <Link
+            to="/checkout"
+            className="btn-neon mt-6 block w-full text-center py-3 text-base uppercase tracking-wider"
+          >
+            Proceed to Checkout →
+          </Link>
+
           <p className="mt-3 rounded-lg border border-primary/40 bg-primary/10 px-3 py-2 text-center text-xs text-primary">
             Secure checkout launches with the Grip Force store opening.
           </p>
