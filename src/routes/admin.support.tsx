@@ -120,12 +120,35 @@ function SupportPage() {
                   {/* Plain text only: React escapes it, so customer text can never run as code. */}
                   <p className="whitespace-pre-wrap break-words text-sm">{m.message}</p>
                   <div className="mt-4 flex flex-wrap items-center gap-3">
+                    {/* Direct Gmail compose window */}
                     <a
-                      className="btn-neon"
+                      className="btn-neon text-xs"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(m.customer_email)}&su=${encodeURIComponent(`Re: ${m.subject} [Grip Force Support]`)}`}
+                    >
+                      Reply in Gmail ↗
+                    </a>
+                  
+                    {/* Quick copy email */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(m.customer_email);
+                        alert(`Copied ${m.customer_email} to clipboard!`);
+                      }}
+                      className="btn-outline-dark text-xs py-2 px-3"
+                    >
+                      Copy Email
+                    </button>
+                  
+                    <a
+                      className="text-xs text-muted-foreground underline"
                       href={`mailto:${encodeURIComponent(m.customer_email)}?subject=${encodeURIComponent(`Re: ${m.subject}`)}`}
                     >
-                      Reply by email
+                      Default Mail App
                     </a>
+
                     <select
                       value={m.status}
                       onChange={(e) => setStatus.mutate({ id: m.id, status: e.target.value })}
