@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
-import { useCart, useCartDispatch } from "@/lib/cart";
+import { useCart, clearCart, cartItemImage } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -28,7 +28,7 @@ interface BankDetails {
 
 function CheckoutPage() {
   const cart = useCart();
-  const dispatch = useCartDispatch();
+  
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -178,7 +178,7 @@ function CheckoutPage() {
       if (rpcErr) throw rpcErr;
 
       // Cart clear karein aur order success par redirect karein
-      dispatch({ type: "CLEAR" });
+      clearCart();
       navigate({
         to: "/order-success",
         search: { order: orderNumber },
@@ -423,7 +423,7 @@ function CheckoutPage() {
         <div className="lg:col-span-5">
           <div className="sticky top-24 rounded-xl border border-border bg-card p-6">
             <h2 className="font-display text-lg uppercase tracking-wider text-foreground">
-              Order Summary ({cart.totalItems})
+              Order Summary ({cart.count})
             </h2>
 
             {/* Line items list */}
@@ -431,10 +431,11 @@ function CheckoutPage() {
               {cart.lines.map((line) => (
                 <div key={`${line.product.slug}-${line.size ?? "def"}`} className="flex gap-3 pt-3 first:pt-0">
                   <img
-                    src={line.product.imageUrl}
+                    src={cartItemImage(line)}
                     alt={line.product.name}
                     className="size-12 rounded-md object-cover bg-surface-2"
                   />
+
                   <div className="flex-1 text-xs">
                     <p className="font-medium text-foreground">{line.product.name}</p>
                     {line.size && <p className="text-muted-foreground">Size: {line.size}</p>}
