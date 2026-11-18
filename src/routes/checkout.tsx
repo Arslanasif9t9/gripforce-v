@@ -157,7 +157,7 @@ function CheckoutPage() {
       }));
 
       // Call secure database function (No RLS issues!)
-      const { data: rpcRes, error: rpcErr } = await supabase.rpc("create_customer_order", {
+      const { data: rpcRes, error: rpcErr } = await (supabase.rpc as any)("create_customer_order", {
         p_order_number: orderNumber,
         p_customer_name: fullName.trim(),
         p_customer_email: email.trim().toLowerCase(),
@@ -481,7 +481,14 @@ function CheckoutPage() {
             </button>
 
             <p className="mt-3 text-center text-[11px] text-muted-foreground">
-              By placing your order, you agree to Grip Force's terms of service and return policy.
+              By placing your order, you agree to Grip Force's{" "}
+              <Link to="/terms" target="_blank" className="underline hover:text-foreground">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link to="/returns" target="_blank" className="underline hover:text-foreground">
+                Return Policy
+              </Link>.
             </p>
           </div>
         </div>
