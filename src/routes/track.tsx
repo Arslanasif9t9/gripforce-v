@@ -36,21 +36,22 @@ function TrackPage() {
     setOrder(null);
     setItems([]);
 
-    try {
-      // Secure RPC call jo direct database table expose nahi karti
-      const { data, error: rpcErr } = await supabase
-        .rpc("get_order_status", { p_order_number: cleanNumber });
-
-      if (rpcErr) throw rpcErr;
-
-      if (!data) {
-        setError(`No order found matching "${cleanNumber}". Please check the number in your receipt.`);
-        return;
-      }
-
-      setOrder(data);
-      setItems(data.items || []);
-    } catch (err: any) {
+        try {
+          // Secure RPC call jo direct database table expose nahi karti
+          const { data, error: rpcErr } = await (supabase.rpc as any)
+            ("get_order_status", { p_order_number: cleanNumber });
+    
+          if (rpcErr) throw rpcErr;
+    
+          if (!data) {
+            setError(`No order found matching "${cleanNumber}". Please check the number in your receipt.`);
+            return;
+          }
+    
+          const orderData = data as any;
+          setOrder(orderData);
+          setItems(orderData?.items || []);
+        } catch (err: any) {
       console.error("Track failed:", err);
       setError("Unable to retrieve order details. Please check your connection.");
     } finally {
