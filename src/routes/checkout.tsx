@@ -49,10 +49,10 @@ function CheckoutPage() {
 
   // Bank Details from DB or Fallback
   const [bankDetails, setBankDetails] = useState<BankDetails>({
-    bank_name: "Meezan Bank Ltd",
-    account_title: "Grip Force Store",
-    account_number: "01020304050607",
-    iban: "PK60MEZN0001020304050607",
+    bank_name: "Bank Alfalah",
+    account_title: "Syed Ali komail",
+    account_number: "57135003030515",
+    iban: "PK23ALFH5713005003030515",
     instructions: "Please transfer the total amount and upload your payment slip/screenshot below.",
   });
 

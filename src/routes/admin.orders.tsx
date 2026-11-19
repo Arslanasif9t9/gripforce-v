@@ -24,6 +24,7 @@ type OrderStatus = "pending" | "confirmed" | "processing" | "shipped" | "deliver
 function AdminOrdersPage() {
   const queryClient = useQueryClient();
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterPayment, setFilterPayment] = useState<string>("all"); 
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   const [trackingInputs, setTrackingInputs] = useState<Record<string, string>>({});
@@ -76,12 +77,26 @@ function AdminOrdersPage() {
   // Filter & Search Logic
   const filteredOrders = orders.filter((ord: any) => {
     const matchesStatus = filterStatus === "all" || ord.status === filterStatus;
+
+    const method = ord.shipping_address?.payment_method ?? "";
+    const matchesPayment =
+      filterPayment === "all"
+        ? true
+        : filterPayment === "cod"
+          ? method === "cod"
+          : filterPayment === "bank"
+            ? method === "bank_transfer"
+            : filterPayment === "paid"
+              ? method === "bank_transfer" && !!ord.receipt_url
+              : /* unpaid */ method === "cod" || (method === "bank_transfer" && !ord.receipt_url);
+
     const matchesSearch =
       ord.order_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ord.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ord.customer_email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (ord.customer_phone && ord.customer_phone.includes(searchQuery));
-    return matchesStatus && matchesSearch;
+
+    return matchesStatus && matchesPayment && matchesSearch;
   });
 
   const statusColors: Record<string, string> = {
@@ -109,8 +124,9 @@ function AdminOrdersPage() {
 
       {/* Filters & Search */}
       <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2">
-          {["all", "pending", "confirmed", "shipped", "delivered", "cancelled"].map((st) => (
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Status chips */}
+          {["all", "pending", "confirmed", "processing", "shipped", "delivered", "cancelled"].map((st) => (
             <button
               key={st}
               onClick={() => setFilterStatus(st)}
@@ -121,6 +137,30 @@ function AdminOrdersPage() {
               }`}
             >
               {st}
+            </button>
+          ))}
+
+          {/* Divider */}
+          <span className="mx-2 h-5 w-px bg-border" aria-hidden />
+
+          {/* Payment method chips */}
+          {[
+            { key: "all", label: "All Payments" },
+            { key: "cod", label: "COD" },
+            { key: "bank", label: "Bank Transfer" },
+            { key: "paid", label: "Paid (slip)" },
+            { key: "unpaid", label: "Unpaid" },
+          ].map((p) => (
+            <button
+              key={p.key}
+              onClick={() => setFilterPayment(p.key)}
+              className={`rounded-md border px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                filterPayment === p.key
+                  ? "border-primary bg-primary/20 text-primary"
+                  : "border-border bg-background text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {p.label}
             </button>
           ))}
         </div>
