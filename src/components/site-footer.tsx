@@ -66,7 +66,7 @@ export function SiteFooter() {
             <li><Link to="/policies/terms" className="text-muted-foreground hover:text-primary">Terms of Service</Link></li>
           </ul>
           <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-            Secure checkout. Major cards accepted. Prices shown in USD.
+            Secure checkout. Major cards accepted. Prices shown in PKR.
           </p>
         </nav>
       </div>

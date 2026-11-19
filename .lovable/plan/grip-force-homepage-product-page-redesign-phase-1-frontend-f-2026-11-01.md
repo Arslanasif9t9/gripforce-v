@@ -62,7 +62,7 @@ One big frontend upgrade: real product photos everywhere, a cursor-reactive 3D h
 - *Duplicate Ab Roller images* → used as its 2-image gallery.
 
 ## 7. What stays out of scope
-Still Phase 1: no backend/admin/real checkout (Phase 2), prices stay placeholder USD until Shopify sync (Phase 3). Policy pages, search, cart keep working as they are.
+Still Phase 1: no backend/admin/real checkout (Phase 2), prices stay placeholder PKR until Shopify sync (Phase 3). Policy pages, search, cart keep working as they are.
 
 ## 8. Verify
 - Playwright pass on desktop + mobile viewports: hero 3D renders and reacts, rails swipe, scrollbar never shows default style, footer credit visible.

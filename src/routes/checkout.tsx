@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { useCart, clearCart, cartItemImage } from "@/lib/cart";
+import { formatPrice } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -85,7 +86,7 @@ function CheckoutPage() {
     loadBank();
   }, []);
 
-  const shippingCost = cart.subtotal > 49 ? 0 : 5.0;
+  const shippingCost = cart.subtotal > 3500 ? 0 : 250;
   const grandTotal = cart.subtotal + shippingCost;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -452,17 +453,17 @@ function CheckoutPage() {
             <div className="mt-6 space-y-2 border-t border-border pt-4 text-sm">
               <div className="flex justify-between text-muted-foreground">
                 <span>Subtotal</span>
-                <span className="text-foreground">${cart.subtotal.toFixed(2)}</span>
+                <span className="text-foreground">{cart.subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
                 <span>Shipping</span>
                 <span className="text-foreground">
-                  {shippingCost === 0 ? "FREE" : `$${shippingCost.toFixed(2)}`}
+                  {shippingCost === 0 ? "FREE" : `${shippingCost.toFixed(2)}`}
                 </span>
               </div>
               <div className="flex justify-between border-t border-border pt-2 text-base font-bold text-foreground">
                 <span>Total</span>
-                <span className="font-display text-xl text-primary">${grandTotal.toFixed(2)}</span>
+                <span className="font-display text-xl text-primary">{grandTotal.toFixed(2)}</span>
               </div>
             </div>
 

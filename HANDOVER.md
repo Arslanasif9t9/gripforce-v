@@ -58,7 +58,7 @@ Last updated: 2026-11-09
 1. Owner admin email is hard-coded inside trigger `assign_grip_force_admin`. To change it, write a new migration.
 2. Old product images look like `/__l5e/assets-v1/...`. They work on the Lovable-hosted site only. Moving to another host means re-uploading images in admin (Storage).
 3. If ALL products are hidden/deleted, the shop shows the built-in list (so it is never empty).
-4. Prices are placeholder USD until the owner sends real prices or Shopify sync.
+4. Prices are placeholder PKR until the owner sends real prices or Shopify sync.
 5. Collections are fixed in code (`COLLECTIONS` in `src/lib/catalog.ts`). A new collection needs a code change.
 6. Support messages from guests are public-insert (size-limited). If spam appears, add a captcha or a rate limit.
 7. Tables `orders` / `order_items` exist but are unused (Shopify handles orders). Keep or drop later.

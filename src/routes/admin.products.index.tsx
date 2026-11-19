@@ -165,7 +165,7 @@ function ProductsList() {
                     </div>
                   </td>
                   <td className="px-3 py-2">{p.collection_name}</td>
-                  <td className="px-3 py-2">${Number(p.price).toFixed(2)}</td>
+                  <td className="px-3 py-2">PKR {Number(p.price).toLocaleString()}</td>
                   <td className="px-3 py-2">
                     <span className={`rounded px-2 py-0.5 text-xs ${badge[p.status] ?? badge["draft"]}`}>{p.status}</span>
                   </td>

@@ -175,7 +175,7 @@ function CouponsPage() {
               onChange={(e) => setField("discountType", e.target.value as Form["discountType"])}
             >
               <option value="percentage">Percentage (%)</option>
-              <option value="fixed">Fixed amount (USD)</option>
+              <option value="fixed">Fixed amount (PKR)</option>
             </select>
           </AdminField>
           <AdminField label="Discount value">
@@ -242,7 +242,7 @@ function CouponsPage() {
                 <tr key={c.id} className="border-t border-border">
                   <td className="px-3 py-2 font-medium">{c.code}</td>
                   <td className="px-3 py-2">
-                    {c.discount_type === "percentage" ? `${Number(c.discount_value)}%` : `$${Number(c.discount_value).toFixed(2)}`}
+                    {c.discount_type === "percentage" ? `${Number(c.discount_value)}%` : `PKR ${Number(c.discount_value).toLocaleString()}`}
                   </td>
                   <td className="px-3 py-2">
                     {c.usage_count}

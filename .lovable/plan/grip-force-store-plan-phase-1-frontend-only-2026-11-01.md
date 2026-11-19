@@ -6,7 +6,7 @@ Your reference ZIP (R.Z Shoes) is a Lovable app built on TanStack Start + Tailwi
 Your answers:
 - Shopify: **connect your existing store** (done after this plan is approved — Lovable will show a connect button where you open your Shopify admin link)
 - Phase 1 checkout: **cart works now, real checkout comes with the Shopify connection**
-- Prices: **sensible placeholder USD prices** now; real prices come from Shopify later
+- Prices: **sensible placeholder PKR prices** now; real prices come from Shopify later
 
 ## Brand
 - Matte black #101010 base, neon green #A3FF12 for buttons/highlights/sale badges, white + light grey #F3F4F4 for readable product sections, dark grey #242424.
@@ -17,13 +17,13 @@ Your answers:
 All product data lives in code (static catalog file), so nothing else is needed to run it.
 
 1. **Design system** — rewrite `src/styles.css` tokens to the black/neon-green palette, bold fonts, consistent product-card, buttons, badges; dark premium look with light product sections.
-2. **Static catalog** — all 90 products from your uploaded title/description files, mapped to the required categories (Hand & Grip, Gym Gloves, Strength, Home Workout, Resistance Bands, Bags, Hydration, Recovery & Mobility, Bundles). Placeholder USD prices, placeholder images (replaced when you send product pictures), sizes/variants where relevant, badges (NEW / FEATURED).
+2. **Static catalog** — all 90 products from your uploaded title/description files, mapped to the required categories (Hand & Grip, Gym Gloves, Strength, Home Workout, Resistance Bands, Bags, Hydration, Recovery & Mobility, Bundles). Placeholder PKR prices, placeholder images (replaced when you send product pictures), sizes/variants where relevant, badges (NEW / FEATURED).
 3. **Pages** (each with proper SEO titles/descriptions):
    - `/` homepage: announcement bar, header (logo, nav with dropdown mega-menu, search, account, cart, mobile menu), hero "BUILD YOUR GRIP. OWN YOUR STRENGTH." with SHOP NOW + EXPLORE HOME FITNESS, category cards, Featured Products, Home Workout collection, Gym Essentials, Bundles, Why Grip Force, FAQ, newsletter, full footer with policy links.
    - `/shop` Shop All with category filters and sorting.
    - `/collections/$handle` for each main category.
    - `/product/$slug` product page: gallery, price, description, key features, specs, variants, quantity, Add to Cart, Buy Now (enabled once checkout connects), shipping/returns info, related products.
-   - `/cart` — working cart (browser storage), quantities, totals in USD.
+   - `/cart` — working cart (browser storage), quantities, totals in PKR.
    - `/search` — live product search.
    - `/about`, `/contact`, `/faq`, policy pages (`/policies/shipping`, `/policies/returns`, `/policies/privacy`, `/policies/terms`), payment info, size/care guide.
    - Checkout button: visible but says checkout launches with the Shopify connection (per your choice).
@@ -38,7 +38,7 @@ All product data lives in code (static catalog file), so nothing else is needed 
 ## Phase 3 — Shopify connection and launch
 1. Right after plan approval I call the Shopify connect flow for your **existing Grip Force store** (you click the approval and open your Shopify admin link).
 2. Sync products/prices/images to Shopify; cart routes to Shopify's secure checkout (your card payments/bank-transfer setup is configured in Shopify admin — no custom payment forms).
-3. I then give you the simple step-by-step of what to do inside Shopify admin (payment provider for Pakistan, shipping rates, markets/USD, policies) and what stays handled by the connected store.
+3. I then give you the simple step-by-step of what to do inside Shopify admin (payment provider for Pakistan, shipping rates, markets/PKR, policies) and what stays handled by the connected store.
 
 ## What I need from you later
 - Product pictures (any time — I'll drop them into the catalog).

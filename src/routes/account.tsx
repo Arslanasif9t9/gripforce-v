@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { formatPrice } from "@/lib/catalog";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -140,7 +141,7 @@ function AccountPage() {
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Placed on {new Date(ord.created_at).toLocaleDateString()} • Total: ${Number(ord.total).toFixed(2)}
+                    Placed on {new Date(ord.created_at).toLocaleDateString()} • Total: {formatPrice(Number(ord.total))}
                   </p>
                 </div>
 

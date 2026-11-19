@@ -112,7 +112,7 @@ export function productImage(product: Pick<Product, "image">): string {
 }
 
 export function formatPrice(price: number): string {
-  return `$${price.toFixed(2)}`;
+  return `PKR ${Number(price).toLocaleString()}`;
 }
 
 export function productPath(product: Pick<Product, "slug">): string {

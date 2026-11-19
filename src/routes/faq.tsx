@@ -31,7 +31,7 @@ const GROUPS = [
     items: [
       { q: "Which payment methods do you accept?", a: "We accept major international debit and credit cards through Shopify's secure checkout. See the Payment Information page for the latest details." },
       { q: "Is payment taken before the order ships?", a: "Yes. Orders are prepared and dispatched once payment is confirmed. Card payments confirm instantly; if a manual method such as bank transfer is available, dispatch happens after the funds arrive." },
-      { q: "What currency am I paying in?", a: "Prices are shown in US dollars (USD). Your bank handles the conversion to your local currency." },
+      { q: "What currency am I paying in?", a: "Prices are shown in US dollars (PKR). Your bank handles the conversion to your local currency." },
     ],
   },
   {

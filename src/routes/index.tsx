@@ -63,7 +63,7 @@ const FAQS = [
   },
   {
     q: "Which currency are prices shown in?",
-    a: "Prices are displayed in US dollars (USD). Your card issuer or bank handles the final conversion for your local currency.",
+    a: "Prices are displayed in US dollars (PKR). Your card issuer or bank handles the final conversion for your local currency.",
   },
   {
     q: "What payment methods can I use?",

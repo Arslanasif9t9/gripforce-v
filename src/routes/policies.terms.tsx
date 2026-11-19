@@ -22,7 +22,7 @@ function TermsPage() {
       </p>
       <h2>Orders and payment</h2>
       <p>
-        All orders require full payment in advance before dispatch. Prices are displayed in US dollars (USD). An
+        All orders require full payment in advance before dispatch. Prices are displayed in US dollars (PKR). An
         order is accepted when we confirm it; we may decline an order if payment cannot be verified or if the
         destination is not serviceable.
       </p>

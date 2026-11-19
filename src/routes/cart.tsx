@@ -106,7 +106,7 @@ function CartPage() {
               <span className="font-display text-xl uppercase">Total</span>
               <span className="font-display text-2xl text-primary">{formatPrice(cart.subtotal)}</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">Prices in USD</p>
+            <p className="mt-1 text-xs text-muted-foreground">Prices in PKR</p>
           </div>
           <Link
             to="/checkout"

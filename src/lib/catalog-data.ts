@@ -71,7 +71,7 @@ export type Product = {
   features: string[];
   collection: string;
   collectionName: string;
-  /** Placeholder USD price until the Shopify sync (Phase 3). */
+  /** Placeholder PKR price until the Shopify sync (Phase 3). */
   price: number;
   image: string;
   gallery: string[];

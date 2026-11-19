@@ -2,7 +2,7 @@
 
 ## Phase 1 — Storefront (complete)
 - [x] Brand: logo, favicon, black + neon green design system
-- [x] Static catalog: 16 pictured products plus the Starter Kit, 9 collections, placeholder USD prices
+- [x] Static catalog: 16 pictured products plus the Starter Kit, 9 collections, placeholder PKR prices
 - [x] Pages: home, shop, collections, product, cart, search, about, contact, FAQ,
       policies (shipping/returns/privacy/terms), payment info, size guide, track
 - [x] Cart working on browser storage; checkout button reserved for Shopify launch
@@ -32,7 +32,7 @@
 - [ ] Connect owner's existing Shopify store "Grip Force" (store_type: existing)
 - [ ] Sync products, prices, images to Shopify
 - [ ] Cart → Shopify secure checkout; payment provider (Pakistan merchant) config
-- [ ] Shipping rates, markets/USD, policies finalized in Shopify admin
+- [ ] Shipping rates, markets/PKR, policies finalized in Shopify admin
 - [ ] Owner guide: how to run the store day to day in Shopify admin
 
 

@@ -121,7 +121,7 @@ export function ProductForm({ initial, submitLabel, onSubmit, existingSlug }: Pr
             ))}
           </select>
         </Field>
-        <Field label="Price (USD)">
+        <Field label="Price (PKR)">
           <input
             className={inputClass}
             type="number"

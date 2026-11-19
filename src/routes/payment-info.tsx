@@ -36,7 +36,7 @@ function PaymentInfoPage() {
         <section className="rounded-xl border border-border bg-card p-6">
           <h2 className="font-display text-xl uppercase tracking-wide text-primary">Currency</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            All prices are shown in US dollars (USD). If your card is in another currency, your bank applies its own
+            All prices are shown in US dollars (PKR). If your card is in another currency, your bank applies its own
             conversion rate and may charge a small foreign-transaction fee.
           </p>
         </section>

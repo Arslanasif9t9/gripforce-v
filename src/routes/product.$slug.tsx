@@ -99,7 +99,7 @@ function ProductPage() {
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{product.collectionName}</p>
           <h1 className="mt-2 text-4xl leading-tight sm:text-5xl">{product.name}</h1>
           <p className="mt-4 font-display text-3xl text-primary">{formatPrice(product.price)}</p>
-          <p className="mt-1 text-sm text-muted-foreground">Price shown in USD</p>
+          <p className="mt-1 text-sm text-muted-foreground">Price shown in PKR</p>
 
           <p className="mt-6 leading-relaxed text-foreground/90">{product.description}</p>
 

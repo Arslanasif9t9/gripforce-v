@@ -18,6 +18,6 @@
   database role trigger; admin reads and writes must remain protected by RLS.
 - Brand tokens live only in `src/styles.css`; components use semantic classes
   (btn-neon, badge-neon, heading-section, light-* tokens), never raw colors.
-- Prices are placeholder USD values; real prices arrive from Shopify in Phase 3.
+- Prices are placeholder PKR values; real prices arrive from Shopify in Phase 3.
 - No fake reviews, countdowns or invented product claims anywhere in the site.
 - Normal customer and admin data access uses the signed-in client with RLS; any service-role auth-user lookup must be behind an authenticated server function that independently verifies the admin role.

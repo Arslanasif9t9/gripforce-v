@@ -44,7 +44,7 @@ export function AboutPage() {
             gear is never more than a parcel away.
           </p>
           <p>
-            We serve customers internationally with clear pricing in USD, tracked shipping, and honest information
+            We serve customers internationally with clear pricing in PKR, tracked shipping, and honest information
             about every product we sell. No hype, no invented claims — just reliable accessories that hold up to
             real work.
           </p>
