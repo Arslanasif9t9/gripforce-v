@@ -268,6 +268,7 @@ function AdminOrdersPage() {
                         </div>
                       </div>
                       {/* Bank Slip Attachment (if uploaded) */}
+                      {/* Bank Slip Attachment (if uploaded) — inline preview */}
                       {ord.receipt_url && (
                         <div className="mt-3 rounded border border-primary/30 bg-primary/5 p-3">
                           <p className="text-[11px] font-bold uppercase tracking-wider text-primary">
@@ -277,9 +278,27 @@ function AdminOrdersPage() {
                             href={ord.receipt_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-1 inline-flex items-center gap-1.5 text-xs text-foreground underline hover:text-primary"
+                            className="mt-2 block overflow-hidden rounded border border-border bg-black/40"
+                            title="Click to open full size"
                           >
-                            📄 View Payment Slip Screenshot ↗
+                            <img
+                              src={ord.receipt_url}
+                              alt="Payment receipt screenshot"
+                              loading="lazy"
+                              className="max-h-72 w-full cursor-zoom-in object-contain transition-transform hover:scale-[1.02]"
+                              onError={(e) => {
+                                const img = e.currentTarget;
+                                img.style.display = "none";
+                              }}
+                            />
+                          </a>
+                          <a
+                            href={ord.receipt_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-foreground underline hover:text-primary"
+                          >
+                            📄 Open in new tab ↗
                           </a>
                         </div>
                       )}
