@@ -5,6 +5,7 @@ import { TiltImage } from "@/components/tilt-image";
 import { addToCart } from "@/lib/cart";
 import { formatPrice, getProduct, relatedProducts } from "@/lib/catalog";
 import { fetchCatalog, useCatalog } from "@/lib/catalog-store";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/product/$slug")({
   // Loads from the database (falls back to the built-in list), so new products added in /admin work.
@@ -39,6 +40,7 @@ function ProductPage() {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const [checkoutNote, setCheckoutNote] = useState(false);
+  const navigate = useNavigate();
 
   const add = () => {
     addToCart(product.slug, size, qty);
@@ -49,6 +51,7 @@ function ProductPage() {
   const buyNow = () => {
     addToCart(product.slug, size, qty);
     setCheckoutNote(true);
+    navigate({ to: "/checkout" });
   };
 
   return (
